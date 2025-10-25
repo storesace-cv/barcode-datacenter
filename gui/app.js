@@ -1,13 +1,36 @@
+function setDashboardHtml(html) {
+  const container = document.getElementById("dashboard-root");
+  if (!container) return;
+  container.innerHTML = html;
+}
+
+async function loadDashboardFromFile() {
+  const res = await fetch("dashboard.html");
+  if (!res.ok) {
+    throw new Error(`Failed to load dashboard.html: ${res.status}`);
+  }
+  return await res.text();
+}
+
 async function refreshDashboard() {
+  let html;
   if (!window.pywebview || !window.pywebview.api) {
     console.warn("pywebview API not available (browser mode?)");
-    // Fallback: reload local dashboard.html
-    document.getElementById("dashboard").src = "dashboard.html";
-    return;
+    try {
+      html = await loadDashboardFromFile();
+    } catch (err) {
+      console.error(err);
+      const fallback = document.getElementById("fallback-template");
+      if (fallback) {
+        setDashboardHtml(fallback.innerHTML);
+      }
+      return;
+    }
+  } else {
+    html = await window.pywebview.api.get_dashboard_template();
+    await window.pywebview.api.log_action("refresh_dashboard", { ok: true });
   }
-  const html = await window.pywebview.api.get_dashboard_template();
-  document.getElementById("dashboard").srcdoc = html;
-  await window.pywebview.api.log_action("refresh_dashboard", { ok: true });
+  setDashboardHtml(html);
 }
 
 async function showLogs() {

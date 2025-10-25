@@ -4,20 +4,108 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <style>
-body { background:#000; color:#9ef99e; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; padding:16px; }
-table { width:100%; border-collapse: collapse; }
-th,td { border-bottom:1px solid #0f0; padding:.35em .5em; text-align:left; }
-.badge { display:inline-block; padding:.15em .5em; border:1px solid #0f0; border-radius:6px; }
+  body {
+    margin: 0;
+    padding: 24px;
+    font-family: "Segoe UI", Roboto, sans-serif;
+    background-color: #0f1115;
+    color: #e8eef8;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: 0;
+  }
+  .section {
+    background: #161a22;
+    border: 1px solid #2a2f3a;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.35);
+  }
+  dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px 12px;
+  }
+  dt {
+    font-weight: 600;
+    color: #a7b1c2;
+  }
+  dd {
+    margin: 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+  th, td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #2a2f3a;
+    text-align: left;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid #6ea8fe;
+    color: #6ea8fe;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 </style>
 </head>
 <body>
-<h2>Product Catalogue Summary</h2>
-<table>
-<tr><th>Country</th><th>Records</th><th>Last Update</th></tr>
-<tr><td>PT</td><td>—</td><td>2025-10-25</td></tr>
-<tr><td>ANG</td><td>—</td><td>2025-10-25</td></tr>
-<tr><td>CV</td><td>—</td><td>2025-10-25</td></tr>
-</table>
-<p class="badge">Offline demo template</p>
+  <section class="section">
+    <h2>Catalog Metrics</h2>
+    <dl>
+      <div>
+        <dt>Total Products</dt>
+        <dd>1 (stub)</dd>
+      </div>
+      <div>
+        <dt>Data Source</dt>
+        <dd>Seed Fallback</dd>
+      </div>
+      <div>
+        <dt>Generated</dt>
+        <dd>2025-10-25T00:00:00Z</dd>
+      </div>
+    </dl>
+  </section>
+  <section class="section">
+    <h2>Recent Products</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>GTIN</th>
+          <th>Name</th>
+          <th>Brand</th>
+          <th>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0000000000000</td>
+          <td>Stub Product</td>
+          <td>Placeholder</td>
+          <td>PT</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="badge">Deterministic Seed Data</p>
+  </section>
+  <section class="section">
+    <h2>Classification Coverage</h2>
+    <p>No classification metrics calculated yet.</p>
+  </section>
+  <section class="section">
+    <h2>Roadmap Status</h2>
+    <p>Phase 6 dashboard integration is pending detailed implementation.</p>
+  </section>
 </body>
 </html>

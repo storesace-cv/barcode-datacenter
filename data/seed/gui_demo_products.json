@@ -1,0 +1,14 @@
+[
+  {
+    "gtin": "0000000000000",
+    "name": "Stub Product",
+    "brand": "Placeholder",
+    "country": "PT",
+    "qty": 1,
+    "uom": "unit",
+    "family": null,
+    "subfamily": null,
+    "source": "seed",
+    "ingested_at": "2025-10-25T00:00:00Z"
+  }
+]
