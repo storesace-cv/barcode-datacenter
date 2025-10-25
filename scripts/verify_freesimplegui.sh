@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Verify pinned PySimpleGUI-4-foss version and API
+# Verify pinned FreeSimpleGUI version and API
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -8,11 +8,12 @@ cd "$ROOT"
 source .venv/bin/activate 2>/dev/null || true
 
 python - <<'PYCODE'
-import PySimpleGUI as sg, sys
+import FreeSimpleGUI as sg, sys
 ver = str(getattr(sg, 'version', 'unknown'))
-print("Detected PySimpleGUI-4-foss:", ver)
-if not ver.startswith("4.61.0.206"):
-    sys.exit(f"❌ Expected 4.61.0.206, got {ver}")
+print("Detected FreeSimpleGUI:", ver)
+EXPECTED_MAJOR = "5.2"
+if not ver.startswith(EXPECTED_MAJOR):
+    sys.exit(f"❌ Expected {EXPECTED_MAJOR}.x, got {ver}")
 assert hasattr(sg, "theme"), "Missing sg.theme"
-print("✅ OK — PySimpleGUI-4-foss pinned and usable")
+print("✅ OK — FreeSimpleGUI pinned and usable")
 PYCODE

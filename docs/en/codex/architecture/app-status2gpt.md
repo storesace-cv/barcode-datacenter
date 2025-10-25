@@ -1,7 +1,7 @@
 # App Status — GPT Brief (SoT)
 
 ## Phase 7 — Smart-Mode GUI wiring & pipeline stub
-**Goal:** Wire the existing PySimpleGUI GUI to a Smart-Mode pipeline stub so that pressing **“Run pipeline (Smart-Mode)”** executes a no-op pipeline, logs to `artifacts/logs/phase7_pipeline.log`, and updates `docs/en/codex/progress.json`.
+**Goal:** Wire the existing FreeSimpleGUI GUI to a Smart-Mode pipeline stub so that pressing **“Run pipeline (Smart-Mode)”** executes a no-op pipeline, logs to `artifacts/logs/phase7_pipeline.log`, and updates `docs/en/codex/progress.json`.
 
 ### Execution Policy
 **We ALWAYS use Option B:** Codex-first execution. Push/merge to `main`, wait for Codex to finish, then pull `main` and only then test locally.

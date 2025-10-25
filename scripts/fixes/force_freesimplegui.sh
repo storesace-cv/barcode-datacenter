@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Force reinstall of pinned PySimpleGUI-4-foss version (idempotent)
+# Force reinstall of pinned FreeSimpleGUI version (idempotent)
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -12,14 +12,14 @@ fi
 # shellcheck disable=SC1091
 source .venv/bin/activate
 
-pip uninstall -y PySimpleGUI PySimpleGUI-4-foss >/dev/null 2>&1 || true
-pip install --no-cache-dir "PySimpleGUI-4-foss==4.61.0.206"
+pip uninstall -y PySimpleGUI PySimpleGUI-4-foss FreeSimpleGUI >/dev/null 2>&1 || true
+pip install --no-cache-dir "FreeSimpleGUI==5.2.0.post1"
 
 python - <<'PYCODE'
-import PySimpleGUI as sg, sys
+import FreeSimpleGUI as sg, sys
 ver = str(getattr(sg, 'version', 'unknown'))
-print("PySimpleGUI-4-foss version:", ver)
-assert ver.startswith("4.61.0.206"), f"Expected 4.61.0.206, got {ver}"
+print("FreeSimpleGUI version:", ver)
+assert ver.startswith("5.2.0"), f"Expected 5.2.0*, got {ver}"
 assert hasattr(sg, "theme")
 print("Verification OK — pinned version installed.")
 PYCODE
