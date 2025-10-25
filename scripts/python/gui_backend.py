@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-import json, os, sys, threading, time
+import importlib.util
+import json
+import os
+import platform
+import sys
+import threading
+import time
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 HOST, PORT = "127.0.0.1", 6754
@@ -48,6 +54,25 @@ def start_server():
     t.start()
     return httpd
 
+
+def _missing_modules(names):
+    return [name for name in names if importlib.util.find_spec(name) is None]
+
+
+def _macos_runtime_check():
+    if platform.system() != "Darwin":
+        return True, []
+    missing = _missing_modules(["objc"])
+    return len(missing) == 0, missing
+
+
+def _configure_pywebview_environment():
+    if platform.system() == "Darwin":
+        os.environ.setdefault("PYWEBVIEW_GUI", "cocoa")
+        os.environ.setdefault("PYWEBVIEW_OPEN_IN_BROWSER", "0")
+    else:
+        os.environ.setdefault("PYWEBVIEW_GUI", "qt")
+
 def selftest():
     httpd = start_server()
     print(f"[GUI] Serving {ROOT} at http://{HOST}:{PORT}/index.html")
@@ -63,21 +88,31 @@ def selftest():
 def main():
     if "--selftest" in sys.argv:
         sys.exit(selftest())
-    # Start server then open GUI via pywebview if available
+    ok, missing = _macos_runtime_check()
+    if not ok:
+        print("[GUI] Missing macOS dependencies for pywebview:")
+        for module in missing:
+            print(f"       - {module} (install pyobjc)")
+    _configure_pywebview_environment()
     httpd = start_server()
     url = f"http://{HOST}:{PORT}/index.html"
     print(f"[GUI] URL: {url}")
     try:
         import webview
+        if not ok:
+            raise RuntimeError("PyObjC runtime unavailable")
+        backend = os.environ.get("PYWEBVIEW_GUI", "auto")
+        print(f"[GUI] Launching pywebview backend='{backend}'")
         webview.create_window("Barcode Datacenter GUI", url)
-        webview.start()
+        webview.start(gui=backend)
     except Exception as e:
         print(f"[GUI] pywebview not available ({e}); fallback: open in default browser")
         import webbrowser
         webbrowser.open(url)
         # Keep server alive
         try:
-            while True: time.sleep(1)
+            while True:
+                time.sleep(1)
         except KeyboardInterrupt:
             pass
     httpd.shutdown()
