@@ -1,35 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Barcode Datacenter GUI</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="app.js"></script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Barcode Datacenter — GUI</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <header class="app-header">
+  <header class="topbar">
     <h1>Barcode Datacenter</h1>
-    <div class="actions">
-      <button data-action="refresh">Refresh Dashboard</button>
-      <button data-action="logs">Show Logs</button>
-    </div>
+    <nav>
+      <button id="btn-refresh">Refresh</button>
+      <button id="btn-open-dashboard">Open Dashboard</button>
+    </nav>
   </header>
-  <main class="app-main">
-    <section class="panel" id="dashboard-panel">
+
+  <main class="grid">
+    <section class="card">
+      <h2>Status</h2>
+      <pre id="status">Loading...</pre>
+    </section>
+
+    <section class="card">
+      <h2>Actions</h2>
+      <div class="actions">
+        <button data-action="verify-phase5">Verify Publish</button>
+        <button data-action="export-artifacts">Export Artifacts</button>
+      </div>
+      <pre id="action-log"></pre>
+    </section>
+
+    <section class="card span-2">
       <h2>Dashboard</h2>
-      <div id="dashboard-root" class="dashboard-root">Loading…</div>
+      <iframe id="dashboard" src="learning_dashboard.html" title="Dashboard"></iframe>
     </section>
   </main>
-  <section id="logs" class="panel" hidden>
-    <h2>Recent Actions</h2>
-    <ul id="log-list"></ul>
-  </section>
-  <template id="fallback-template">
-    <article class="fallback-message">
-      <h2>Offline Demo</h2>
-      <p>The dashboard is showing deterministic seed data.</p>
-    </article>
-  </template>
+
+  <script src="app.js"></script>
 </body>
 </html>
