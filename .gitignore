@@ -7,3 +7,6 @@ data/*.sqlite3
 data/*.jsonl
 data/*.csv
 artifacts/
+
+.local_backup/
+.smartmode/
