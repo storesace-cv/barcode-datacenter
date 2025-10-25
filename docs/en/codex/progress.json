@@ -1,0 +1,41 @@
+{
+  "project": "barcode-datacenter",
+  "date": "2025-10-25",
+  "phases": {
+    "1": {
+      "name": "Bootstrap & CI",
+      "status": "done",
+      "pct": 100
+    },
+    "2": {
+      "name": "Ingestion",
+      "status": "pending",
+      "pct": 0
+    },
+    "3": {
+      "name": "Normalization & Classification",
+      "status": "pending",
+      "pct": 0
+    },
+    "4": {
+      "name": "Validation & Unify",
+      "status": "pending",
+      "pct": 0
+    },
+    "5": {
+      "name": "Publish",
+      "status": "pending",
+      "pct": 0
+    }
+  },
+  "runners": {
+    "100": "ready",
+    "110": "ready",
+    "200": "ready",
+    "210": "stub",
+    "300": "ready",
+    "310": "ready",
+    "400": "ready",
+    "500": "stub"
+  }
+}
