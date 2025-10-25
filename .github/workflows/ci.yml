@@ -19,6 +19,8 @@ jobs:
         run: |
           flake8 scripts || true
       - name: Tests
+        env:
+          PYTHONPATH: .
         run: |
           pytest -q
       - name: Verify Phase 1
