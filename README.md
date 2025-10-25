@@ -1,15 +1,14 @@
-# Barcode Datacenter — Smart-Mode Structure (v0.1.1)
+# Barcode Datacenter — Smart-Mode v3
 
-Implements full Smart-Mode specification with:
-- Codex documentation and progress tracking
-- GUI (PySimpleGUI) with Smart-Mode pipeline
-- CI integration (GitHub Actions)
-- Codex + GitHub auto-update after Publish/Pipeline
+Implements the full Smart-Mode framework:
+- Codex documentation (SoT, runners, phases, progress)
+- GUI with Smart-Mode workflow and Codex/GitHub integration
+- Idempotent runners
+- Automatic verification scripts
+- GitHub CI workflow
 
-Usage:
+## Usage
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install PySimpleGUI
+cd ~/Documents/NextCloud/projectos/bwb/desenvolvimento/barcode-datacenter
 bash scripts/launchers/launcher.sh
 ```

@@ -5,7 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: echo 'Smart-Mode CI check OK'
+      - name: Verify Scripts
+        run: |
+          bash scripts/verify_repo_state.sh
+          bash scripts/verify_publish.sh
+          bash scripts/verify_phase6_gui.sh

@@ -1,10 +1,52 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.3",
   "phases": {
+    "phase2_data": {
+      "status": "done",
+      "pct": 100
+    },
+    "phase3_transform": {
+      "status": "done",
+      "pct": 100
+    },
+    "phase4_validate": {
+      "status": "done",
+      "pct": 100
+    },
+    "phase5_publish": {
+      "status": "done",
+      "pct": 100
+    },
     "phase6_gui": {
       "status": "in_progress",
-      "pct": 40
+      "pct": 60
     }
   },
-  "last_update_utc": "2025-10-25T16:40:03Z"
+  "runners": {
+    "ingest": {
+      "idempotent": true,
+      "status": "ok"
+    },
+    "normalize": {
+      "idempotent": true,
+      "status": "ok"
+    },
+    "classify": {
+      "idempotent": true,
+      "status": "ok"
+    },
+    "validate_gtin": {
+      "idempotent": true,
+      "status": "ok"
+    },
+    "dedupe_unify": {
+      "idempotent": true,
+      "status": "ok"
+    },
+    "publish": {
+      "idempotent": true,
+      "status": "ok"
+    }
+  },
+  "last_update_utc": "2025-10-25T16:45:56Z"
 }
