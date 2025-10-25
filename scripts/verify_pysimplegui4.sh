@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
-# Verify that PySimpleGUI is 4.x and exposes expected API
+# Verify pinned PySimpleGUI-4-foss version and API
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-source "${ROOT}/.venv/bin/activate" 2>/dev/null || { echo "venv not active"; exit 1; }
+cd "$ROOT"
+# shellcheck disable=SC1091
+source .venv/bin/activate 2>/dev/null || true
 
 python - <<'PYCODE'
 import PySimpleGUI as sg, sys
-ver = getattr(sg, 'version', 'unknown')
-print("Detected PySimpleGUI:", ver)
-if ver.startswith("5"):
-    sys.exit("❌ Detected v5.x (Pro). Expected v4.x")
-assert hasattr(sg, "theme")
-print("✅ OK — API present and version < 5")
+ver = str(getattr(sg, 'version', 'unknown'))
+print("Detected PySimpleGUI-4-foss:", ver)
+if not ver.startswith("4.61.0.206"):
+    sys.exit(f"❌ Expected 4.61.0.206, got {ver}")
+assert hasattr(sg, "theme"), "Missing sg.theme"
+print("✅ OK — PySimpleGUI-4-foss pinned and usable")
 PYCODE
