@@ -1,16 +1,24 @@
-#!/usr/bin/env python3
+import subprocess
+import sys
 import PySimpleGUI as sg
 
-if hasattr(sg, 'theme'):
-    sg.theme('DarkGrey13')
-elif hasattr(sg, 'set_options'):
-    sg.set_options(background_color='#2C2C2C', text_color='white')
-layout=[[sg.Text('Barcode Datacenter GUI (Smart-Mode)')],
-        [sg.Button('Run pipeline (Smart-Mode)'), sg.Button('Exit')]]
-win=sg.Window('Barcode Datacenter',layout)
+sg.theme("DarkGrey13")
+layout = [
+    [sg.Text("Barcode Datacenter GUI (Smart-Mode)")],
+    [sg.Button("Run pipeline (Smart-Mode)"), sg.Button("Exit")]
+]
+window = sg.Window("Barcode Datacenter GUI (Smart-Mode)", layout)
+
 while True:
-    ev,_=win.read()
-    if ev in (None,'Exit'):break
-    if ev=='Run pipeline (Smart-Mode)':
-        sg.popup('Pipeline executed (stub Smart-Mode)')
-win.close()
+    event, values = window.read()
+    if event in (sg.WIN_CLOSED, "Exit"):
+        break
+    if event == "Run pipeline (Smart-Mode)":
+        # Invoke Smart-Mode pipeline stub (idempotent)
+        try:
+            subprocess.check_call([sys.executable, "scripts/codex/run_smart_pipeline.py"])
+            sg.popup("Pipeline executed (stub Smart-Mode)")
+        except Exception as e:
+            sg.popup_error(f"Pipeline failed: {e}")
+
+window.close()
