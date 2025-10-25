@@ -1,7 +1,7 @@
 (function(){
   const statusEl = document.getElementById('status');
   const logEl = document.getElementById('action-log');
-  const dash = document.getElementById('dashboard');
+  const dashboardFrame = document.getElementById('dashboard');
 
   async function fetchJSON(path){
     const r = await fetch(path, {cache: 'no-store'});
@@ -11,17 +11,35 @@
 
   async function refresh(){
     try{
-      const s = await fetchJSON('/api/status');
-      statusEl.textContent = JSON.stringify(s, null, 2);
+      const status = await fetchJSON('/api/status');
+      statusEl.textContent = JSON.stringify(status, null, 2);
     }catch(e){
       statusEl.textContent = 'Error: ' + e.message;
     }
   }
 
   document.getElementById('btn-refresh').addEventListener('click', refresh);
-  document.getElementById('btn-open-dashboard').addEventListener('click', () => {
-    dash.src = 'learning_dashboard.html?ts=' + Date.now();
-  });
+
+  const openArtifactsBtn = document.getElementById('btn-open-artifacts');
+  if(openArtifactsBtn){
+    openArtifactsBtn.addEventListener('click', () => {
+      // TODO: wire this button to the artifact viewer once available.
+      console.debug('Open Artifacts clicked');
+    });
+  }
+
+  const openLogsBtn = document.getElementById('btn-open-logs');
+  if(openLogsBtn){
+    openLogsBtn.addEventListener('click', () => {
+      // TODO: display log modal or redirect to logs screen.
+      console.debug('Open Logs clicked');
+    });
+  }
+
+  if(dashboardFrame){
+    // Placeholder to demonstrate where dashboard refreshing could live.
+    dashboardFrame.dataset.initializedTs = Date.now().toString();
+  }
 
   document.querySelectorAll('[data-action]').forEach(btn => {
     btn.addEventListener('click', async () => {

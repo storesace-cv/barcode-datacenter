@@ -1,13 +1,267 @@
-html,body{height:100%;margin:0;background:#0f1115;color:#e6e6e6;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#161a22;border-bottom:1px solid #2a2f3a}
-.topbar h1{font-size:18px;margin:0}
-.topbar nav button{margin-left:8px}
-button{background:#2b6cb0;color:#fff;border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
-button:hover{filter:brightness(1.1)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding:16px}
-.card{background:#161a22;border:1px solid #2a2f3a;border-radius:12px;padding:12px}
-.span-2{grid-column:span 2}
-iframe#dashboard{width:100%;height:420px;border:0;border-radius:8px;background:#0b0d12}
-pre{background:#0b0d12;border:1px solid #2a2f3a;border-radius:8px;padding:8px;overflow:auto}
-.actions button{margin-right:8px;margin-bottom:8px}
-@media (max-width: 900px){.grid{grid-template-columns:1fr}.span-2{grid-column:span 1}}
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  background: #0f1115;
+  color: #e6e6e6;
+  min-height: 100%;
+}
+
+/* Layout shells --------------------------------------------------------- */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(22, 26, 34, 0.95);
+  border-bottom: 1px solid rgba(42, 47, 58, 0.8);
+}
+
+.identity {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(110, 168, 254, 0.16);
+  border: 1px solid rgba(110, 168, 254, 0.32);
+  font-weight: 600;
+}
+
+.branch {
+  color: #9aa3b6;
+  font-size: 14px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(42, 47, 58, 0.8);
+  color: inherit;
+}
+
+.workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 0;
+}
+
+.sidebar {
+  padding: 24px 20px;
+  border-right: 1px solid rgba(42, 47, 58, 0.8);
+}
+
+.sidebar-title {
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #9aa3b6;
+}
+
+.workflow {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #9aa3b6;
+}
+
+.workflow li::marker {
+  color: #6ea8fe;
+}
+
+.main-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  overflow: auto;
+}
+
+.panel {
+  background: rgba(20, 24, 35, 0.85);
+  border: 1px solid rgba(42, 47, 58, 0.8);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.panel-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab {
+  background: transparent;
+  border: 1px solid rgba(42, 47, 58, 0.8);
+  border-radius: 999px;
+  padding: 6px 14px;
+  color: #9aa3b6;
+  cursor: pointer;
+}
+
+.tab.active {
+  border-color: #6ea8fe;
+  color: #6ea8fe;
+}
+
+.status-output,
+.log-output {
+  margin: 0;
+  background: #0b0d12;
+  border: 1px solid #222736;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 120px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.btn-primary {
+  background: #3dd598;
+  color: #0b2d1c;
+}
+
+.btn-accent {
+  background: #6ea8fe;
+  color: #0b1220;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(42, 47, 58, 0.8);
+  color: inherit;
+}
+
+.dashboard-panel iframe {
+  width: 100%;
+  height: 360px;
+  border: 0;
+  border-radius: 12px;
+  background: #0b0d12;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 20px;
+  background: rgba(22, 26, 34, 0.95);
+  border-top: 1px solid rgba(42, 47, 58, 0.8);
+}
+
+.status-group,
+.status-alerts {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.status-ok {
+  background: rgba(61, 213, 152, 0.15);
+  border: 1px solid rgba(61, 213, 152, 0.4);
+  color: #3dd598;
+}
+
+.status-warn {
+  background: rgba(244, 183, 64, 0.15);
+  border: 1px solid rgba(244, 183, 64, 0.4);
+  color: #f4b740;
+}
+
+.status-err {
+  background: rgba(255, 107, 107, 0.15);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  color: #ff6b6b;
+}
+
+.counter {
+  color: #9aa3b6;
+}
+
+/* Responsive scaffolding ----------------------------------------------- */
+@media (max-width: 1024px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid rgba(42, 47, 58, 0.8);
+  }
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .status-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
