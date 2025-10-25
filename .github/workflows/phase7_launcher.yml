@@ -1,0 +1,25 @@
+name: Phase 7 — Launcher Verification
+on:
+  push:
+    paths:
+      - "scripts/launchers/launcher.sh"
+      - "scripts/verify_launcher.sh"
+      - "scripts/verify_phase7.sh"
+      - "docs/en/codex/runners/700_launcher.md"
+      - "docs/en/codex/phases/phase7_launcher.md"
+  pull_request:
+    paths:
+      - "scripts/launchers/launcher.sh"
+      - "scripts/verify_launcher.sh"
+      - "scripts/verify_phase7.sh"
+      - "docs/en/codex/runners/700_launcher.md"
+      - "docs/en/codex/phases/phase7_launcher.md"
+  workflow_dispatch:
+
+jobs:
+  verify-launcher:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Launcher
+        run: bash scripts/verify_phase7.sh
