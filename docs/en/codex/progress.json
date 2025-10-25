@@ -19,8 +19,8 @@
     },
     "4": {
       "name": "Validation & Unify",
-      "status": "pending",
-      "pct": 0
+      "status": "ready",
+      "pct": 40
     },
     "5": {
       "name": "Publish",
@@ -45,7 +45,9 @@
     "600": "ready",
     "605": "ready",
     "315": "ready",
-    "320": "ready"
+    "320": "ready",
+    "410": "ready",
+    "420": "ready"
   },
   "updated": "2025-10-25"
 }

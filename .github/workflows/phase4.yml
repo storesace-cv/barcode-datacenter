@@ -1,0 +1,33 @@
+name: Phase 4 — Unify Verification
+on:
+  push:
+    paths:
+      - "scripts/python/dedupe_unify.py"
+      - "scripts/python/build_unify_input.py"
+      - "scripts/verify_phase4.sh"
+      - "docs/en/codex/runners/41*.md"
+      - "docs/en/codex/runners/420.md"
+      - "docs/en/codex/phases/phase4_unify.md"
+  pull_request:
+    paths:
+      - "scripts/python/dedupe_unify.py"
+      - "scripts/python/build_unify_input.py"
+      - "scripts/verify_phase4.sh"
+      - "docs/en/codex/runners/41*.md"
+      - "docs/en/codex/runners/420.md"
+      - "docs/en/codex/phases/phase4_unify.md"
+
+jobs:
+  verify-phase4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Verify Phase 4
+        run: bash scripts/verify_phase4.sh
