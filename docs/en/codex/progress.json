@@ -24,8 +24,8 @@
     },
     "5": {
       "name": "Publish",
-      "status": "pending",
-      "pct": 0
+      "status": "ready",
+      "pct": 60
     },
     "6": {
       "name": "Desktop GUI (pywebview)",
@@ -41,7 +41,7 @@
     "300": "ready",
     "310": "ready",
     "400": "ready",
-    "500": "stub",
+    "500": "ready",
     "600": "ready",
     "605": "ready",
     "315": "ready",
