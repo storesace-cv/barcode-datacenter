@@ -1,7 +1,7 @@
 {
   "phases": {
     "7": {
-      "title": "Phase 7 — Smart-Mode GUI wiring & pipeline stub",
+      "title": "Phase 7 \u2014 Smart-Mode GUI wiring & pipeline stub",
       "runner": "docs/en/codex/runners/700.md",
       "status_files": [
         "docs/en/codex/architecture/app-status2gpt.md",
@@ -10,6 +10,18 @@
       ],
       "artifacts": [
         "artifacts/logs/phase7_pipeline.log"
+      ]
+    },
+    "8": {
+      "title": "Phase 8 \u2014 FreeSimpleGUI Dashboard (Smart-Mode)",
+      "runner": "docs/en/codex/runners/800.md",
+      "status_files": [
+        "docs/en/codex/architecture/app-status2gpt.md",
+        "docs/en/codex/progress.json",
+        "docs/en/codex/architecture/policies.md"
+      ],
+      "artifacts": [
+        "artifacts/logs/phase8_ui_build.log"
       ]
     }
   }

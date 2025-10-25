@@ -1,12 +1,7 @@
 # Changelog
 
-## [Unreleased]
-- Initialize Phase 7 (Smart-Mode GUI wiring & pipeline stub, Option B policy)
-
-## [Phase 7] — Smart-Mode GUI wiring
-- Added SoT entries for Phase 7.
-- Runner `700.md` created with acceptance & verify steps.
-- Implemented `run_smart_pipeline.py` and `progress_helper.py`.
-- Wired GUI button to pipeline stub (FreeSimpleGUI).
-- Added verifier script and CI workflow.
-- Added Option B policy and helper scripts.
+## [Phase 8] — FreeSimpleGUI Dashboard (Docs-Only)
+- Added SoT entries and **Runner 800.md** specifying the dashboard UI to implement.
+- Policies updated to enforce **Option B** and **FreeSimpleGUI**.
+- Added Phase 8 progress tasks and CI workflow (docs-only verification).
+- Added command file `docs/en/codex/commands/run_phase8.md` for direct Codex execution.
