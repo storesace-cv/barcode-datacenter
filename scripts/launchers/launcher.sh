@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Smart-Mode Launcher v3.4 — Prefer PySimpleGUI-4-foss==4.61.0.206
+# Smart-Mode Launcher v3.4 — Prefer FreeSimpleGUI==5.2.0.post1
 # Idempotent, CI-friendly, Codex/GitHub integrated
 
 set -euo pipefail
@@ -34,18 +34,15 @@ python -m ensurepip -U >/dev/null 2>&1 || true
 pip install --upgrade pip wheel setuptools >/dev/null 2>&1
 
 # (3) Install pinned GUI lib (FOSS)
-PRIMARY_SPEC="PySimpleGUI-4-foss==4.61.0.206"
-FALLBACK_SPECS=("PySimpleGUI-4-foss==4.60.4.1" "PySimpleGUI==5.0.8.3")
-VENDOR_WHEEL="${ROOT}/vendor/PySimpleGUI-4.60.5-py3-none-any.whl"
+PRIMARY_SPEC="FreeSimpleGUI==5.2.0.post1"
+FALLBACK_SPECS=("FreeSimpleGUI==5.2.0" "FreeSimpleGUI==5.1.1" "FreeSimpleGUI==5.1.0" "FreeSimpleGUI==5.0.0")
+VENDOR_WHEEL="${ROOT}/vendor/FreeSimpleGUI-5.2.0.post1-py3-none-any.whl"
 
-pip uninstall -y PySimpleGUI PySimpleGUI-4-foss || true
+pip uninstall -y PySimpleGUI PySimpleGUI-4-foss FreeSimpleGUI || true
 
 install_gui_pkg() {
   local spec="$1"
   local extra_args=()
-  if [[ "${spec}" == PySimpleGUI-4-foss* ]]; then
-    extra_args=(--index-url "https://pypi.org/simple")
-  fi
   echo "[Smart-Mode] Installing ${spec}..."
   if pip install --no-cache-dir "${extra_args[@]}" "${spec}"; then
     GUI_SPEC="${spec}"
@@ -62,7 +59,8 @@ else
   if [ -f "${VENDOR_WHEEL}" ]; then
     echo "[Smart-Mode] Installing vendor wheel ${VENDOR_WHEEL}"
     if pip install "${VENDOR_WHEEL}"; then
-      GUI_SPEC="PySimpleGUI==4.60.5"
+      version_from_wheel=$(basename "${VENDOR_WHEEL}" | sed -E 's/FreeSimpleGUI-([0-9A-Za-z\.]+)-.*/\1/')
+      GUI_SPEC="FreeSimpleGUI==${version_from_wheel}"
     else
       echo "[Smart-Mode] ⚠️ Vendor wheel install failed"
     fi
@@ -79,7 +77,7 @@ else
   fi
 
   if [ -z "${GUI_SPEC}" ]; then
-    echo "[Smart-Mode] ❌ Unable to install any PySimpleGUI distribution"
+    echo "[Smart-Mode] ❌ Unable to install any FreeSimpleGUI distribution"
     exit 1
   fi
 fi
@@ -91,7 +89,7 @@ DIST_NAME="${GUI_SPEC%%==*}"
 python - "${EXPECTED_VERSION}" "${DIST_NAME}" <<'PYCODE'
 import sys
 from importlib import metadata
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 
 expected, dist_name = sys.argv[1], sys.argv[2]
 try:
@@ -101,11 +99,11 @@ except Exception:
     if ver == 'unknown' and hasattr(sg, '__version__'):
         ver = str(getattr(sg, '__version__'))
 
-print("[Smart-Mode] Detected PySimpleGUI:", ver)
+print("[Smart-Mode] Detected FreeSimpleGUI:", ver)
 assert ver.startswith(expected), f"Expected {expected}, got {ver}"
 has_theme_api = hasattr(sg, "theme") or hasattr(sg, "set_options")
 assert has_theme_api, "Missing theme APIs"
-print("[Smart-Mode] ✅ PySimpleGUI verified")
+print("[Smart-Mode] ✅ FreeSimpleGUI verified")
 PYCODE
 
 # (5) Launch GUI
@@ -119,7 +117,7 @@ python app/gui/gui_app.py || {
 # (6) Update Codex + push to GitHub
 if [ -f "scripts/codex/update_codex_and_push.sh" ]; then
   echo "[Smart-Mode] Updating Codex + pushing state to GitHub..."
-  bash scripts/codex/update_codex_and_push.sh "deps_pysimplegui4foss_4.61.0.206"
+  bash scripts/codex/update_codex_and_push.sh "deps_freesimplegui_5.2.0.post1"
 fi
 
 echo "[Smart-Mode] ✅ Environment ready and GUI launched (${GUI_SPEC})"
