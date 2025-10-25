@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 import PySimpleGUI as sg
-sg.theme('DarkGrey13')
+
+if hasattr(sg, 'theme'):
+    sg.theme('DarkGrey13')
+elif hasattr(sg, 'set_options'):
+    sg.set_options(background_color='#2C2C2C', text_color='white')
 layout=[[sg.Text('Barcode Datacenter GUI (Smart-Mode)')],
         [sg.Button('Run pipeline (Smart-Mode)'), sg.Button('Exit')]]
 win=sg.Window('Barcode Datacenter',layout)
