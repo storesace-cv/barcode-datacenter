@@ -1,60 +1,10 @@
 {
-  "project": "barcode-datacenter",
-  "date": "2025-10-25",
+  "version": "0.1.1",
   "phases": {
-    "1": {
-      "name": "Bootstrap",
-      "status": "ready",
-      "pct": 100
-    },
-    "2": {
-      "name": "Ingest & Normalize",
-      "status": "ready",
-      "pct": 100
-    },
-    "3": {
-      "name": "Classify",
-      "status": "ready",
-      "pct": 100
-    },
-    "4": {
-      "name": "Validation & Unify",
-      "status": "ready",
-      "pct": 100
-    },
-    "5": {
-      "name": "Publish",
-      "status": "ready",
-      "pct": 100
-    },
-    "6": {
-      "name": "Desktop GUI",
-      "status": "ready",
-      "pct": 100
-    },
-    "7": {
-      "name": "Launcher",
-      "status": "ready",
-      "pct": 100
+    "phase6_gui": {
+      "status": "in_progress",
+      "pct": 40
     }
   },
-  "runners": {
-    "100": "ready",
-    "110": "ready",
-    "200": "ready",
-    "210": "stub",
-    "300": "ready",
-    "310": "ready",
-    "400": "ready",
-    "500": "ready",
-    "600": "ready",
-    "605": "ready",
-    "315": "ready",
-    "320": "ready",
-    "410": "ready",
-    "420": "ready",
-    "700": "ready",
-    "620": "ready"
-  },
-  "updated": "2025-10-25"
+  "last_update_utc": "2025-10-25T16:40:03Z"
 }
