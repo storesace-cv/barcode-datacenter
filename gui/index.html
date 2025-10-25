@@ -7,34 +7,90 @@
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <header class="topbar">
-    <h1>Barcode Datacenter</h1>
-    <nav>
-      <button id="btn-refresh">Refresh</button>
-      <button id="btn-open-dashboard">Open Dashboard</button>
-    </nav>
-  </header>
-
-  <main class="grid">
-    <section class="card">
-      <h2>Status</h2>
-      <pre id="status">Loading...</pre>
-    </section>
-
-    <section class="card">
-      <h2>Actions</h2>
-      <div class="actions">
-        <button data-action="verify-phase5">Verify Publish</button>
-        <button data-action="export-artifacts">Export Artifacts</button>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="identity">
+        <span class="badge">🧬 barcode-datacenter <span class="version">v0.1.0</span></span>
+        <span class="branch">branch: my-barcode-datacenter</span>
       </div>
-      <pre id="action-log"></pre>
-    </section>
+      <nav class="header-actions">
+        <button id="btn-refresh" class="btn btn-ghost">🔄 Sync Main</button>
+        <button id="btn-open-artifacts" class="btn btn-ghost">🗂️ Open Artifacts</button>
+        <button id="btn-open-logs" class="btn btn-ghost">📜 Open Logs</button>
+      </nav>
+    </header>
 
-    <section class="card span-2">
-      <h2>Dashboard</h2>
-      <iframe id="dashboard" src="learning_dashboard.html" title="Dashboard"></iframe>
-    </section>
-  </main>
+    <div class="workspace">
+      <aside class="sidebar">
+        <h2 class="sidebar-title">📋 Workflow</h2>
+        <ol class="workflow">
+          <li>Dashboard</li>
+          <li>Ingest</li>
+          <li>Normalize</li>
+          <li>Classify</li>
+          <li>Validate GTIN</li>
+          <li>Dedupe &amp; Unify</li>
+          <li>Publish</li>
+          <li>Tools / Logs</li>
+        </ol>
+      </aside>
+
+      <main class="main-pane">
+        <section class="panel data-panel">
+          <header class="panel-header">
+            <h2>Data Table</h2>
+            <nav class="panel-tabs">
+              <button class="tab active" type="button">Data</button>
+              <button class="tab" type="button">Preview / Artifacts</button>
+              <button class="tab" type="button">Logs</button>
+            </nav>
+          </header>
+          <pre id="status" class="status-output">Loading...</pre>
+        </section>
+
+        <section class="panel actions-panel">
+          <h2>Actions</h2>
+          <div class="actions">
+            <button class="btn btn-primary" data-action="run-step">
+              ▶️ <span>Run Passo Atual</span>
+            </button>
+            <button class="btn btn-accent" data-action="run-pipeline">
+              🤖 <span>Run Pipeline (Smart)</span>
+            </button>
+            <button class="btn btn-outline" data-action="clean-cache">
+              🧹 <span>Clean Cache / Verify</span>
+            </button>
+            <button class="btn btn-outline" data-action="verify-phase5">
+              ✅ <span>Verify Publish</span>
+            </button>
+            <button class="btn btn-outline" data-action="export-artifacts">
+              📦 <span>Export Artifacts</span>
+            </button>
+          </div>
+          <pre id="action-log" class="log-output"></pre>
+        </section>
+
+        <section class="panel dashboard-panel">
+          <h2>Dashboard</h2>
+          <iframe id="dashboard" src="learning_dashboard.html" title="Dashboard"></iframe>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <footer class="status-bar">
+    <div class="status-group">
+      <span class="status-pill status-ok">✅ OK</span>
+      <span class="counter">valid: 123</span>
+      <span class="counter">invalid: 4</span>
+      <span class="counter">duplicates: 2</span>
+      <span class="counter">runtime: 00:12</span>
+    </div>
+    <div class="status-alerts">
+      <span class="status-pill status-warn">⚠️ Warnings</span>
+      <span class="status-pill status-err">⛔ Attention Required</span>
+    </div>
+  </footer>
 
   <script src="app.js"></script>
 </body>
