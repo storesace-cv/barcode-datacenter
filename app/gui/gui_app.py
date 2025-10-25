@@ -1,6 +1,6 @@
 import subprocess
 import sys
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 
 
 def _apply_theme(theme_name: str) -> None:
@@ -14,10 +14,10 @@ def _apply_theme(theme_name: str) -> None:
         sg.change_look_and_feel(theme_name)
         return
 
-    # Fallback: some degraded versions of PySimpleGUI omit theme helpers entirely.
+    # Fallback: some degraded versions of FreeSimpleGUI omit theme helpers entirely.
     # In this situation the GUI still runs, just without a custom look-and-feel.
     print(
-        "Warning: Unable to configure PySimpleGUI theme – continuing with defaults.",
+        "Warning: Unable to configure FreeSimpleGUI theme – continuing with defaults.",
         file=sys.stderr,
     )
 
