@@ -16,6 +16,7 @@ on:
       - "docs/en/codex/runners/41*.md"
       - "docs/en/codex/runners/420.md"
       - "docs/en/codex/phases/phase4_unify.md"
+  workflow_dispatch:
 
 jobs:
   verify-phase4:

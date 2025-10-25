@@ -12,6 +12,7 @@ on:
       - "gui/**"
       - "scripts/verify_phase6.sh"
       - "docs/en/codex/runners/600.md"
+  workflow_dispatch:
 
 jobs:
   verify-gui:
