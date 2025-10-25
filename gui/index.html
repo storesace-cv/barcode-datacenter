@@ -8,19 +8,28 @@
   <script defer src="app.js"></script>
 </head>
 <body>
-  <section id="header" class="unit-section">
+  <header class="app-header">
     <h1>Barcode Datacenter</h1>
     <div class="actions">
       <button data-action="refresh">Refresh Dashboard</button>
       <button data-action="logs">Show Logs</button>
     </div>
-  </section>
-  <section id="content" class="clusters-area">
-    <iframe id="dashboard" src="dashboard.html" title="Dashboard"></iframe>
-  </section>
-  <section id="logs" hidden>
+  </header>
+  <main class="app-main">
+    <section class="panel" id="dashboard-panel">
+      <h2>Dashboard</h2>
+      <div id="dashboard-root" class="dashboard-root">Loading…</div>
+    </section>
+  </main>
+  <section id="logs" class="panel" hidden>
     <h2>Recent Actions</h2>
     <ul id="log-list"></ul>
   </section>
+  <template id="fallback-template">
+    <article class="fallback-message">
+      <h2>Offline Demo</h2>
+      <p>The dashboard is showing deterministic seed data.</p>
+    </article>
+  </template>
 </body>
 </html>

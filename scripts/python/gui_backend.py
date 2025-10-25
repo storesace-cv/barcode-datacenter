@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-import json, os, sqlite3, datetime
+import json
+import sqlite3
+import datetime
 from pathlib import Path
+from typing import Any, Dict, List
 
 try:
     import webview
@@ -8,6 +11,68 @@ except Exception as e:
     webview = None
 
 DB_PATH = Path("data/barcode_gui.db")
+PIPELINE_OUTPUT = Path("data/unified_all.csv")
+SEED_DASHBOARD_DATA = Path("data/seed/gui_demo_products.json")
+
+
+def load_pipeline_products() -> List[Dict[str, Any]]:
+    """Stub loader for the unified pipeline output.
+
+    The real implementation will parse ``data/unified_all.csv`` and map the
+    columns into the dashboard data model. For now we simply acknowledge the
+    source without performing any I/O to keep the stub deterministic.
+    """
+
+    if PIPELINE_OUTPUT.exists():
+        # Placeholder: the future implementation will transform the CSV rows.
+        return []
+    return []
+
+
+def load_seed_products() -> List[Dict[str, Any]]:
+    """Load deterministic GUI seed data when pipeline artifacts are missing."""
+
+    if not SEED_DASHBOARD_DATA.exists():
+        return []
+    try:
+        return json.loads(SEED_DASHBOARD_DATA.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        # The stub should be resilient while the seed evolves.
+        return []
+
+
+def build_dashboard_payload() -> Dict[str, Any]:
+    """Compose the dashboard payload using pipeline data with seed fallback."""
+
+    products = load_pipeline_products() or load_seed_products()
+    return {
+        "generated_at": now_utc(),
+        "metrics": {
+            "total_products": len(products),
+            "source": "stub",
+        },
+        "recent_products": products[:5],
+        "classification": {
+            "coverage": {},
+            "summary": [],
+        },
+        "roadmap": {},
+    }
+
+
+def render_dashboard_html(payload: Dict[str, Any]) -> str:
+    """Render an HTML dashboard for the GUI.
+
+    The future implementation will inject structured metrics into a template.
+    For now we reuse the static ``gui/dashboard.html`` file so that the stubbed
+    backend remains backwards compatible with the existing frontend.
+    """
+
+    html_path = Path("gui/dashboard.html")
+    if html_path.exists():
+        return html_path.read_text(encoding="utf-8")
+    # Last resort stub content to avoid runtime errors while iterating.
+    return "<html><body><p>Dashboard template missing.</p></body></html>"
 
 def now_utc():
     return datetime.datetime.utcnow().isoformat(timespec="seconds")
@@ -29,8 +94,8 @@ class ExposedAPI:
         return {"ok": True}
 
     def get_dashboard_template(self):
-        html_path = Path("gui/dashboard.html")
-        return html_path.read_text(encoding="utf-8")
+        payload = build_dashboard_payload()
+        return render_dashboard_html(payload)
 
     def list_logs(self, limit=50):
         cur = self.conn.execute("SELECT ts,action,payload FROM logs ORDER BY ts DESC LIMIT ?", (limit,))
