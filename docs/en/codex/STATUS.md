@@ -1,1 +1,2 @@
 - 2025-10-25T16:45:56Z — Smart-Mode v3 initialized
+- 2025-10-25T16:55:52Z — launcher_env_setup ok (smart-mode)
