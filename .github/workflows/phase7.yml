@@ -1,6 +1,7 @@
 name: Phase 7 Verify & Commit
 
 on:
+  workflow_dispatch:     # 🔹 permite botão manual "Run workflow"
   push:
     branches:
       - main
