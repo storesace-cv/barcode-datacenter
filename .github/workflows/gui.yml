@@ -1,0 +1,22 @@
+name: GUI Verification
+on:
+  push:
+    paths:
+      - "scripts/python/gui_backend.py"
+      - "gui/**"
+      - "scripts/verify_phase6.sh"
+      - "docs/en/codex/runners/600.md"
+  pull_request:
+    paths:
+      - "scripts/python/gui_backend.py"
+      - "gui/**"
+      - "scripts/verify_phase6.sh"
+      - "docs/en/codex/runners/600.md"
+
+jobs:
+  verify-gui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify GUI
+        run: bash scripts/verify_phase6.sh
