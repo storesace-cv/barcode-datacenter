@@ -1,0 +1,6 @@
+{
+  "inputs": [
+    "data/classified_pt_v2.csv",
+    "data/validated_pt.csv"
+  ]
+}

@@ -3,37 +3,37 @@
   "date": "2025-10-25",
   "phases": {
     "1": {
-      "name": "Bootstrap & CI",
-      "status": "done",
+      "name": "Bootstrap",
+      "status": "ready",
       "pct": 100
     },
     "2": {
-      "name": "Ingestion",
-      "status": "pending",
-      "pct": 0
+      "name": "Ingest & Normalize",
+      "status": "ready",
+      "pct": 100
     },
     "3": {
-      "name": "Normalization & Classification",
+      "name": "Classify",
       "status": "ready",
-      "pct": 25
+      "pct": 100
     },
     "4": {
       "name": "Validation & Unify",
       "status": "ready",
-      "pct": 40
+      "pct": 100
     },
     "5": {
       "name": "Publish",
       "status": "ready",
-      "pct": 60
+      "pct": 100
     },
     "6": {
-      "name": "Desktop GUI (pywebview)",
+      "name": "Desktop GUI",
       "status": "ready",
       "pct": 100
     },
     "7": {
-      "name": "Launcher Integration",
+      "name": "Launcher",
       "status": "ready",
       "pct": 100
     }
