@@ -2,19 +2,43 @@
   "phases": {
     "7": {
       "tasks": {
-        "gui_wiring": { "value": 100, "msg": "Phase 7 GUI wiring executed (stub)." },
-        "ci_commit":  { "value": 100, "msg": "CI wrote progress/logs back to repo." }
+        "gui_wiring": {
+          "value": 100,
+          "msg": "Phase 7 GUI wiring executed (stub)."
+        },
+        "ci_commit": {
+          "value": 100,
+          "msg": "CI wrote progress/logs back to repo."
+        }
       },
-      "updated_at": "2025-01-01T00:00:00Z"
+      "updated_at": "2025-10-25T23:55:32.100833Z"
     },
     "8": {
       "tasks": {
-        "gui_dashboard_layout": { "value": 0, "msg": "Init Phase 8 dashboard layout." },
-        "actions_wiring":       { "value": 0, "msg": "Wire actions to placeholders/stub." },
-        "statusbar_counters":   { "value": 0, "msg": "Status bar & counters shown." },
-        "tabs_impl":            { "value": 0, "msg": "Tabs scaffolded." },
-        "tool_buttons":         { "value": 0, "msg": "Sync/Refresh/Open actions." },
-        "ci_commit":            { "value": 0, "msg": "CI wrote progress/logs back to repo." }
+        "gui_dashboard_layout": {
+          "value": 0,
+          "msg": "Init Phase 8 dashboard layout."
+        },
+        "actions_wiring": {
+          "value": 0,
+          "msg": "Wire actions to placeholders/stub."
+        },
+        "statusbar_counters": {
+          "value": 0,
+          "msg": "Status bar & counters shown."
+        },
+        "tabs_impl": {
+          "value": 0,
+          "msg": "Tabs scaffolded."
+        },
+        "tool_buttons": {
+          "value": 0,
+          "msg": "Sync/Refresh/Open actions."
+        },
+        "ci_commit": {
+          "value": 0,
+          "msg": "CI wrote progress/logs back to repo."
+        }
       },
       "updated_at": null
     }
