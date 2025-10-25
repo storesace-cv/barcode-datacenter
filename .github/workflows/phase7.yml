@@ -6,7 +6,7 @@ on:
       - main
       - my-barcode-datacenter
       - 'codex/**'
-  pull_request:
+  pull_request: {}
 
 permissions:
   contents: write
@@ -14,7 +14,6 @@ permissions:
 jobs:
   verify-and-commit:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,7 +34,4 @@ jobs:
         run: bash scripts/verify_phase7_status.sh
 
       - name: Execute Smart-Mode stub & commit progress back
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash scripts/codex/ci_commit.sh
+        run: bash scripts/codex/ci_commit.sh
