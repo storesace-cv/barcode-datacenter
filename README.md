@@ -49,3 +49,9 @@ See [`CHANGELOG.md`](CHANGELOG.md).
 ---
 
 © BWB — All rights reserved.
+
+
+
+## Launcher (Smart-Mode)
+Run: `bash scripts/launchers/launcher.sh` — backups, sync, venv, GUI start.  
+_Updated: 2025-10-25_

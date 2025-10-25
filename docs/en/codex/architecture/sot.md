@@ -51,3 +51,15 @@ python scripts/python/gui_backend.py
 **Outputs**
 - GUI window (1200×800) with embedded dashboard
 - SQLite log entries (`logs` table)
+
+
+
+## Phase 7 — Launcher (Smart-Mode)
+
+**Status:** ✅ Ready · **Date:** 2025-10-25
+
+**Artifacts**
+- `scripts/launchers/launcher.sh`
+- `docs/en/codex/runners/700_launcher.md`
+- `scripts/verify_launcher.sh`
+- `.github/workflows/phase7_launcher.yml`
