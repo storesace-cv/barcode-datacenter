@@ -4,9 +4,6 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +12,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Run CI entry (soft-fail tests unless STRICT_CI=1)
+      - name: CI Entry (soft-fail tests unless STRICT_CI=1)
         env:
           STRICT_CI: ${{ vars.STRICT_CI || '0' }}
         run: bash scripts/ci_entrypoint.sh
