@@ -1,0 +1,19 @@
+name: Roadmap Verification
+on:
+  push:
+    paths:
+      - "docs/en/roadmap.md"
+      - "scripts/verify_roadmap.sh"
+  pull_request:
+    paths:
+      - "docs/en/roadmap.md"
+      - "scripts/verify_roadmap.sh"
+  workflow_dispatch:
+
+jobs:
+  verify-roadmap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify
+        run: bash scripts/verify_roadmap.sh
