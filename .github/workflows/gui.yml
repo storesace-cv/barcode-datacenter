@@ -2,16 +2,14 @@ name: GUI Verification
 on:
   push:
     paths:
-      - "scripts/python/gui_backend.py"
       - "gui/**"
+      - "scripts/python/gui_backend.py"
       - "scripts/verify_phase6.sh"
-      - "docs/en/codex/runners/600.md"
   pull_request:
     paths:
-      - "scripts/python/gui_backend.py"
       - "gui/**"
+      - "scripts/python/gui_backend.py"
       - "scripts/verify_phase6.sh"
-      - "docs/en/codex/runners/600.md"
   workflow_dispatch:
 
 jobs:

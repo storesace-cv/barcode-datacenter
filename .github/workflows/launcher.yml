@@ -1,0 +1,26 @@
+name: Launcher Verification
+on:
+  push:
+    paths:
+      - "scripts/launchers/launcher.sh"
+      - "scripts/verify_venv_launcher.sh"
+      - "docs/en/codex/runners/620.md"
+      - "docs/en/codex/phases/phase6_checklist.md"
+  pull_request:
+    paths:
+      - "scripts/launchers/launcher.sh"
+      - "scripts/verify_venv_launcher.sh"
+      - "docs/en/codex/runners/620.md"
+      - "docs/en/codex/phases/phase6_checklist.md"
+  workflow_dispatch:
+
+jobs:
+  verify-launcher:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify venv launcher
+        run: bash scripts/verify_venv_launcher.sh

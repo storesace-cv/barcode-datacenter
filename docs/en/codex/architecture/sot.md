@@ -63,3 +63,13 @@ python scripts/python/gui_backend.py
 - `docs/en/codex/runners/700_launcher.md`
 - `scripts/verify_launcher.sh`
 - `.github/workflows/phase7_launcher.yml`
+
+
+
+## Launcher Venv Enforcement (Runner 620)
+
+**Status:** ✅ Ready · **Date:** 2025-10-25
+
+- Enforce `.venv` creation and GUI execution via `.venv/bin/python`.
+- Verify script: `scripts/verify_venv_launcher.sh`.
+- Workflow: `.github/workflows/launcher.yml`.

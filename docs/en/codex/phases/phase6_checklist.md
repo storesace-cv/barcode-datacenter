@@ -1,10 +1,9 @@
-# Phase 6 — Checklist
+# Phase 6 — GUI & Launcher Checklist
 
-- [x] GUI assets present (`gui/*`)
-- [x] Backend bridge compiles (`python -m py_compile scripts/python/gui_backend.py`)
-- [x] Verify script passes: `bash scripts/verify_phase6.sh`
-- [x] CI workflow present: `.github/workflows/gui.yml`
-- [x] SoT updated with Phase 6 section
-- [x] Runner 600 and 605 available
-- [x] Commit & push executed on `my-barcode-datacenter`
-- [ ] PR to `main` approved and merged
+**Updated:** 2025-10-25
+
+- [x] Serve GUI at http://127.0.0.1:6754/index.html
+- [x] Self-test (`--selftest`) for CI
+- [x] Launch via **.venv/bin/python** (Runner 620)
+- [x] Verify script: `scripts/verify_venv_launcher.sh`
+- [x] Workflow: `.github/workflows/launcher.yml` (dispatch)

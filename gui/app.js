@@ -1,58 +1,39 @@
-function setDashboardHtml(html) {
-  const container = document.getElementById("dashboard-root");
-  if (!container) return;
-  container.innerHTML = html;
-}
+(function(){
+  const statusEl = document.getElementById('status');
+  const logEl = document.getElementById('action-log');
+  const dash = document.getElementById('dashboard');
 
-async function loadDashboardFromFile() {
-  const res = await fetch("dashboard.html");
-  if (!res.ok) {
-    throw new Error(`Failed to load dashboard.html: ${res.status}`);
+  async function fetchJSON(path){
+    const r = await fetch(path, {cache: 'no-store'});
+    if(!r.ok) throw new Error(`${path} -> ${r.status}`);
+    return await r.json();
   }
-  return await res.text();
-}
 
-async function refreshDashboard() {
-  let html;
-  if (!window.pywebview || !window.pywebview.api) {
-    console.warn("pywebview API not available (browser mode?)");
-    try {
-      html = await loadDashboardFromFile();
-    } catch (err) {
-      console.error(err);
-      const fallback = document.getElementById("fallback-template");
-      if (fallback) {
-        setDashboardHtml(fallback.innerHTML);
-      }
-      return;
+  async function refresh(){
+    try{
+      const s = await fetchJSON('/api/status');
+      statusEl.textContent = JSON.stringify(s, null, 2);
+    }catch(e){
+      statusEl.textContent = 'Error: ' + e.message;
     }
-  } else {
-    html = await window.pywebview.api.get_dashboard_template();
-    await window.pywebview.api.log_action("refresh_dashboard", { ok: true });
   }
-  setDashboardHtml(html);
-}
 
-async function showLogs() {
-  if (!window.pywebview || !window.pywebview.api) {
-    alert("Logs only available in app mode.");
-    return;
-  }
-  const logs = await window.pywebview.api.list_logs(100);
-  const list = document.getElementById("log-list");
-  list.innerHTML = "";
-  for (const log of logs) {
-    const li = document.createElement("li");
-    li.textContent = `${log.ts} – ${log.action}`;
-    list.appendChild(li);
-  }
-  document.getElementById("logs").hidden = false;
-}
+  document.getElementById('btn-refresh').addEventListener('click', refresh);
+  document.getElementById('btn-open-dashboard').addEventListener('click', () => {
+    dash.src = 'learning_dashboard.html?ts=' + Date.now();
+  });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const btnRefresh = document.querySelector("[data-action='refresh']");
-  const btnLogs = document.querySelector("[data-action='logs']");
-  if (btnRefresh) btnRefresh.onclick = refreshDashboard;
-  if (btnLogs) btnLogs.onclick = showLogs;
-  refreshDashboard();
-});
+  document.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const action = btn.dataset.action;
+      try{
+        const res = await fetchJSON('/api/run/' + action);
+        logEl.textContent = (logEl.textContent + '\n' + JSON.stringify(res)).trim();
+      }catch(e){
+        logEl.textContent = (logEl.textContent + '\nError: ' + e.message).trim();
+      }
+    });
+  });
+
+  refresh();
+})();
