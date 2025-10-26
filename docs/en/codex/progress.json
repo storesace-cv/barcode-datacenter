@@ -4,11 +4,11 @@
       "tasks": {
         "gui_complete": {
           "value": 100,
-          "msg": "GUI com stepper, estado em tempo real e integra\u00e7\u00e3o com backend atualizado."
+          "msg": "GUI com stepper, estado em tempo real e integração com backend atualizado."
         },
         "ingest_impl": {
           "value": 100,
-          "msg": "Ingest module com conectores de supermercados, fallback offline e m\u00e9tricas de proveni\u00eancia."
+          "msg": "Ingest module com conectores de supermercados, fallback offline e métricas de proveniência."
         },
         "normalize_impl": {
           "value": 100,
@@ -43,7 +43,7 @@
           "msg": "CI marked ci_commit (docs-only)."
         }
       },
-      "updated_at": "2025-10-26T14:20:00Z"
+      "updated_at": "2025-10-26T18:50:50.869156Z"
     }
   }
 }
