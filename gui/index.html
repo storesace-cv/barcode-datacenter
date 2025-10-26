@@ -1,97 +1,60 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Barcode Datacenter — GUI</title>
+  <title>Barcode Datacenter — Smart-Mode</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
   <div class="app-shell">
     <header class="app-header">
       <div class="identity">
-        <span class="badge">🧬 barcode-datacenter <span class="version">v0.1.0</span></span>
-        <span class="branch">branch: my-barcode-datacenter</span>
+        <h1>Barcode Datacenter</h1>
+        <span>Pipeline inteligente para PT · Angola · Cabo Verde</span>
       </div>
-      <nav class="header-actions">
-        <button id="btn-refresh" class="btn btn-ghost">🔄 Sync Main</button>
-        <button id="btn-open-artifacts" class="btn btn-ghost">🗂️ Open Artifacts</button>
-        <button id="btn-open-logs" class="btn btn-ghost">📜 Open Logs</button>
-      </nav>
+      <div class="controls">
+        <label class="toggle">
+          <input type="checkbox" id="toggle-offline"/>
+          <span>Forçar ingestão offline</span>
+        </label>
+        <button id="btn-refresh" class="btn btn-secondary">🔄 Atualizar estado</button>
+        <button id="btn-run-step" class="btn btn-secondary">▶️ Executar passo</button>
+        <button id="btn-run-pipeline" class="btn btn-primary">🤖 Executar pipeline completo</button>
+      </div>
     </header>
 
-    <div class="workspace">
+    <div class="content">
       <aside class="sidebar">
-        <h2 class="sidebar-title">📋 Workflow</h2>
-        <ol class="workflow">
-          <li>Dashboard</li>
-          <li>Ingest</li>
-          <li>Normalize</li>
-          <li>Classify</li>
-          <li>Validate GTIN</li>
-          <li>Dedupe &amp; Unify</li>
-          <li>Publish</li>
-          <li>Tools / Logs</li>
-        </ol>
+        <h2>Workflow guiado</h2>
+        <ol id="stepper" class="stepper"></ol>
+        <div class="step-actions">
+          <button id="btn-prev" class="btn btn-ghost">◀️ Passo anterior</button>
+          <button id="btn-next" class="btn btn-ghost">▶️ Próximo passo</button>
+        </div>
       </aside>
 
       <main class="main-pane">
-        <section class="panel data-panel">
-          <header class="panel-header">
-            <h2>Data Table</h2>
-            <nav class="panel-tabs">
-              <button class="tab active" type="button">Data</button>
-              <button class="tab" type="button">Preview / Artifacts</button>
-              <button class="tab" type="button">Logs</button>
-            </nav>
-          </header>
-          <pre id="status" class="status-output">Loading...</pre>
+        <section class="panel">
+          <header><span>Estado dos passos</span></header>
+          <pre id="status-output">A carregar estado...</pre>
         </section>
-
-        <section class="panel actions-panel">
-          <h2>Actions</h2>
-          <div class="actions">
-            <button class="btn btn-primary" data-action="run-step">
-              ▶️ <span>Run Passo Atual</span>
-            </button>
-            <button class="btn btn-accent" data-action="run-pipeline">
-              🤖 <span>Run Pipeline (Smart)</span>
-            </button>
-            <button class="btn btn-outline" data-action="clean-cache">
-              🧹 <span>Clean Cache / Verify</span>
-            </button>
-            <button class="btn btn-outline" data-action="verify-phase5">
-              ✅ <span>Verify Publish</span>
-            </button>
-            <button class="btn btn-outline" data-action="export-artifacts">
-              📦 <span>Export Artifacts</span>
-            </button>
-          </div>
-          <pre id="action-log" class="log-output"></pre>
+        <section class="panel">
+          <header><span>Artefactos</span> <button id="btn-refresh-artifacts" class="btn btn-ghost">Atualizar</button></header>
+          <ul id="artifact-list" class="artifacts"></ul>
         </section>
-
-        <section class="panel dashboard-panel">
-          <h2>Dashboard</h2>
-          <iframe id="dashboard" src="learning_dashboard.html" title="Dashboard"></iframe>
+        <section class="panel">
+          <header><span>Logs da API</span></header>
+          <pre id="log-output"></pre>
         </section>
       </main>
     </div>
+
+    <footer class="status-bar">
+      <div id="status-summary" class="status-pill">Sem métricas disponíveis</div>
+      <div class="status-pill" id="last-updated">—</div>
+    </footer>
   </div>
-
-  <footer class="status-bar">
-    <div class="status-group">
-      <span class="status-pill status-ok">✅ OK</span>
-      <span class="counter">valid: 123</span>
-      <span class="counter">invalid: 4</span>
-      <span class="counter">duplicates: 2</span>
-      <span class="counter">runtime: 00:12</span>
-    </div>
-    <div class="status-alerts">
-      <span class="status-pill status-warn">⚠️ Warnings</span>
-      <span class="status-pill status-err">⛔ Attention Required</span>
-    </div>
-  </footer>
-
   <script src="app.js"></script>
 </body>
 </html>

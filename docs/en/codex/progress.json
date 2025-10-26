@@ -4,11 +4,11 @@
       "tasks": {
         "gui_complete": {
           "value": 100,
-          "msg": "GUI screens and wiring complete."
+          "msg": "GUI com stepper, estado em tempo real e integração com backend atualizado."
         },
         "ingest_impl": {
           "value": 100,
-          "msg": "Ingest module implemented and tested."
+          "msg": "Ingest module com conectores de supermercados, fallback offline e métricas de proveniência."
         },
         "normalize_impl": {
           "value": 100,
@@ -32,7 +32,7 @@
         },
         "pipeline_end2end": {
           "value": 100,
-          "msg": "End-to-end pipeline passes with seed data."
+          "msg": "Pipeline end-to-end executa com SmartPipelineRunner e artefactos reais."
         },
         "tests_green": {
           "value": 100,
@@ -43,7 +43,7 @@
           "msg": "CI marked ci_commit (docs-only)."
         }
       },
-      "updated_at": "2025-10-26T12:02:31.163042Z"
+      "updated_at": "2025-10-26T18:50:50.869156Z"
     }
   }
 }

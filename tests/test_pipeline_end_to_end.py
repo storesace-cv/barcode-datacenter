@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import csv
 import json
 import sqlite3
@@ -28,10 +26,10 @@ def _cleanup() -> None:
             path.unlink()
 
 
-def test_pipeline_creates_final_artifacts(tmp_path):
+def test_pipeline_creates_final_artifacts():
     _cleanup()
 
-    pipeline_main(["--limit", "6", "--country", "PT"])
+    pipeline_main(["--limit", "9", "--country", "PT", "--offline"])
 
     final_csv = OUTPUTS_DIR / "final.csv"
     final_sqlite = OUTPUTS_DIR / "final.sqlite"
@@ -42,17 +40,17 @@ def test_pipeline_creates_final_artifacts(tmp_path):
     with final_csv.open(newline="", encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
     assert rows, "Final CSV should contain data"
+    assert all(row.get("price_currency") for row in rows), "Price currency should be populated"
 
-    # SQLite should hold the same number of rows
     conn = sqlite3.connect(final_sqlite)
     try:
-        cur = conn.execute("SELECT COUNT(*) FROM products")
-        (count,) = cur.fetchone()
+        cur = conn.execute("SELECT COUNT(*), COUNT(DISTINCT gtin) FROM products")
+        count, distinct = cur.fetchone()
     finally:
         conn.close()
     assert count == len(rows)
+    assert distinct == len(rows)
 
-    # The pipeline log should include the pipeline completion entry
     assert PHASE9_LOG.exists()
     with PHASE9_LOG.open(encoding="utf-8") as fh:
         entries = [json.loads(line) for line in fh if line.strip()]

@@ -10,6 +10,7 @@ from typing import List
 from scripts.python.classify_products_v2 import classify, norm_brand, up
 
 from . import WORKING_DIR, ensure_directories, log_event
+from .models import StepResult
 
 
 def classify_file(input_path: Path, output_path: Path) -> int:
@@ -41,6 +42,21 @@ def classify_file(input_path: Path, output_path: Path) -> int:
     return count
 
 
+def run_classify(
+    input_path: Path = WORKING_DIR / "normalized.csv",
+    output_path: Path = WORKING_DIR / "classified.csv",
+) -> StepResult:
+    count = classify_file(input_path, output_path)
+    result = StepResult(
+        name="classify",
+        status="ok" if count else "empty",
+        metrics={"classified": count},
+        artifacts={"csv": str(output_path)},
+    )
+    log_event("classify", f"Classified {count} rows.", extra=result.metrics)
+    return result
+
+
 def main(argv: List[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Assign families/subfamilies to normalized rows.")
     parser.add_argument(
@@ -59,8 +75,7 @@ def main(argv: List[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    count = classify_file(args.input_path, args.output_path)
-    log_event("classify", f"Classified {count} rows.", extra={"output": str(args.output_path)})
+    run_classify(args.input_path, args.output_path)
     return 0
 
 
