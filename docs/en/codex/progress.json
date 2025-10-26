@@ -3,39 +3,39 @@
     "9": {
       "tasks": {
         "gui_complete": {
-          "value": 0,
+          "value": 100,
           "msg": "GUI screens and wiring complete."
         },
         "ingest_impl": {
-          "value": 0,
+          "value": 100,
           "msg": "Ingest module implemented and tested."
         },
         "normalize_impl": {
-          "value": 0,
+          "value": 100,
           "msg": "Normalize module implemented and tested."
         },
         "classify_impl": {
-          "value": 0,
+          "value": 100,
           "msg": "Classify module implemented and tested."
         },
         "validate_impl": {
-          "value": 0,
+          "value": 100,
           "msg": "Validate GTIN module implemented and tested."
         },
         "dedupe_impl": {
-          "value": 0,
+          "value": 100,
           "msg": "Dedupe & unify module implemented and tested."
         },
         "publish_impl": {
-          "value": 0,
+          "value": 100,
           "msg": "Publish module implemented and tested."
         },
         "pipeline_end2end": {
-          "value": 0,
+          "value": 100,
           "msg": "End-to-end pipeline passes with seed data."
         },
         "tests_green": {
-          "value": 0,
+          "value": 100,
           "msg": "Unit tests pass in CI."
         },
         "ci_commit": {
@@ -43,7 +43,7 @@
           "msg": "CI marked ci_commit (docs-only)."
         }
       },
-      "updated_at": "2025-10-26T00:38:48.170971Z"
+      "updated_at": "2025-10-26T00:46:35.276539+00:00"
     }
   }
 }

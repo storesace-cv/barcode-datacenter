@@ -1,16 +1,13 @@
 .venv/
 __pycache__/
 *.pyc
+*.sqlite
+*.sqlite3
 data/*.db
-data/*.sqlite
-data/*.sqlite3
 data/*.jsonl
 data/*.csv
-artifacts/
-logs/
-
-.local_backup/
-.smartmode/
+artifacts/*
+/logs/
 
 .local_backup/
 .smartmode/

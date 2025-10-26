@@ -7,11 +7,13 @@ import os
 import subprocess
 import sys
 import webbrowser
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List
 
 import FreeSimpleGUI as sg
+
+from pipeline import GUI_LOG, ensure_directories as ensure_pipeline_dirs, log_event as pipeline_log
 
 
 APP_VERSION = "v0.1.0"
@@ -104,10 +106,23 @@ def _status_payload() -> Dict[str, object]:
     }
 
 
-def _append_log(window: sg.Window, log_lines: List[str], message: str) -> None:
-    timestamp = datetime.utcnow().strftime("%H:%M:%S")
+def _write_gui_log(message: str, status: str = "info") -> None:
+    ensure_pipeline_dirs()
+    payload = {
+        "ts": datetime.now(timezone.utc).isoformat(),
+        "status": status,
+        "message": message,
+    }
+    with open(GUI_LOG, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(payload, ensure_ascii=False) + os.linesep)
+    pipeline_log("gui", message, status=status, extra={"source": "gui_app"})
+
+
+def _append_log(window: sg.Window, log_lines: List[str], message: str, *, status: str = "info") -> None:
+    timestamp = datetime.now().strftime("%H:%M:%S")
     log_lines.append(f"[{timestamp}] {message}")
     window["-LOGS-"].update("\n".join(log_lines))
+    _write_gui_log(message, status=status)
 
 
 def _update_status(window: sg.Window) -> None:
@@ -117,14 +132,14 @@ def _update_status(window: sg.Window) -> None:
     window["-BRANCH-LABEL-"].update(f"Branch: {payload['branch']}")
 
 
-def _run_pipeline_stub(window: sg.Window, log_lines: List[str]) -> bool:
+def _run_pipeline(window: sg.Window, log_lines: List[str]) -> bool:
     try:
-        subprocess.check_call([sys.executable, "scripts/codex/run_smart_pipeline.py"])
+        subprocess.check_call([sys.executable, "-m", "pipeline.run"])
         _append_log(window, log_lines, "Run pipeline (Smart-Mode) completed.")
-        sg.popup("Pipeline executed (stub Smart-Mode)")
+        sg.popup("Pipeline executed successfully")
         return True
     except Exception as exc:  # pragma: no cover - interactive failure path
-        _append_log(window, log_lines, f"Pipeline failed: {exc}")
+        _append_log(window, log_lines, f"Pipeline failed: {exc}", status="error")
         sg.popup_error(f"Pipeline failed: {exc}")
         return False
 
@@ -140,7 +155,7 @@ def _sync_main(window: sg.Window, log_lines: List[str]) -> None:
         if output.strip():
             _append_log(window, log_lines, output.strip())
     except subprocess.CalledProcessError as exc:
-        _append_log(window, log_lines, f"Sync Main failed: {exc.output.strip()}")
+        _append_log(window, log_lines, f"Sync Main failed: {exc.output.strip()}", status="error")
         sg.popup_error(f"Sync Main failed: {exc.output}")
 
 
@@ -182,13 +197,13 @@ def _run_step(window: sg.Window, log_lines: List[str], step_label: str) -> bool:
     }
     slug = step_slug_map.get(step_label)
     if not slug:
-        _append_log(window, log_lines, f"Unknown step requested: {step_label}")
+        _append_log(window, log_lines, f"Unknown step requested: {step_label}", status="error")
         sg.popup_error(f"Unknown step: {step_label}")
         return False
 
     script_path = Path(__file__).resolve().parents[2] / "scripts" / "steps" / "run_step.sh"
     if not script_path.exists():
-        _append_log(window, log_lines, "Run step script missing.")
+        _append_log(window, log_lines, "Run step script missing.", status="error")
         sg.popup_error(f"Unable to locate run_step.sh at {script_path}")
         return False
 
@@ -198,7 +213,7 @@ def _run_step(window: sg.Window, log_lines: List[str], step_label: str) -> bool:
         window["-STATUSBAR-READY-"].update(f"Ready – Completed {step_label}")
         return True
     except subprocess.CalledProcessError as exc:  # pragma: no cover - interactive failure path
-        _append_log(window, log_lines, f"Run step failed: {exc}")
+        _append_log(window, log_lines, f"Run step failed: {exc}", status="error")
         sg.popup_error(f"Run step failed: {exc}")
         return False
 
@@ -398,7 +413,7 @@ def main() -> None:
             break
 
         if event == "-RUN-PIPELINE-":
-            if _run_pipeline_stub(window, log_lines):
+            if _run_pipeline(window, log_lines):
                 window["-STATUSBAR-READY-"].update("Ready – Smart-Mode pipeline finished")
             else:
                 window["-STATUSBAR-READY-"].update("Ready – Pipeline error")
