@@ -1,46 +1,49 @@
 {
   "phases": {
-    "7": {
+    "9": {
       "tasks": {
-        "gui_wiring": {
-          "value": 100,
-          "msg": "Phase 7 GUI wiring executed (stub)."
+        "gui_complete": {
+          "value": 0,
+          "msg": "GUI screens and wiring complete."
+        },
+        "ingest_impl": {
+          "value": 0,
+          "msg": "Ingest module implemented and tested."
+        },
+        "normalize_impl": {
+          "value": 0,
+          "msg": "Normalize module implemented and tested."
+        },
+        "classify_impl": {
+          "value": 0,
+          "msg": "Classify module implemented and tested."
+        },
+        "validate_impl": {
+          "value": 0,
+          "msg": "Validate GTIN module implemented and tested."
+        },
+        "dedupe_impl": {
+          "value": 0,
+          "msg": "Dedupe & unify module implemented and tested."
+        },
+        "publish_impl": {
+          "value": 0,
+          "msg": "Publish module implemented and tested."
+        },
+        "pipeline_end2end": {
+          "value": 0,
+          "msg": "End-to-end pipeline passes with seed data."
+        },
+        "tests_green": {
+          "value": 0,
+          "msg": "Unit tests pass in CI."
         },
         "ci_commit": {
-          "value": 100,
+          "value": 0,
           "msg": "CI wrote progress/logs back to repo."
         }
       },
-      "updated_at": "2025-10-25T23:55:32.100833Z"
-    },
-    "8": {
-      "tasks": {
-        "gui_dashboard_layout": {
-          "value": 100,
-          "msg": "Phase 8 dashboard layout present."
-        },
-        "actions_wiring": {
-          "value": 100,
-          "msg": "Phase 8 actions wired to placeholders."
-        },
-        "statusbar_counters": {
-          "value": 100,
-          "msg": "Status counters visible."
-        },
-        "tabs_impl": {
-          "value": 100,
-          "msg": "Tabs scaffolded."
-        },
-        "tool_buttons": {
-          "value": 100,
-          "msg": "Sync/Refresh/Open wired."
-        },
-        "ci_commit": {
-          "value": 100,
-          "msg": "CI marked ci_commit (docs-only)."
-        }
-      },
-      "updated_at": "2025-10-26T00:27:55.427901Z"
+      "updated_at": null
     }
   }
 }

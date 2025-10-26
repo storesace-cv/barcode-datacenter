@@ -1,0 +1,36 @@
+name: Phase 9 Verify (Docs-Only)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, my-barcode-datacenter, 'codex/**' ]
+  pull_request: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify-docs-only:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Verify Phase 9 (docs-only)
+        run: bash scripts/verify_phase9_status.sh || true
+
+      - name: Mark ci_commit (Phase 9)
+        run: |
+          python3 scripts/codex/progress_helper.py --phase 9 --task ci_commit --value 100 --msg "CI marked ci_commit (docs-only)."
+          git config user.name  "codex-bot"
+          git config user.email "codex-bot@users.noreply.github.com"
+          git add docs/en/codex/progress.json || true
+          git commit -m "codex: phase9 progress (docs-only) [skip ci]" || true
+          git push || true

@@ -23,6 +23,26 @@
       "artifacts": [
         "artifacts/logs/phase8_ui_build.log"
       ]
+    },
+    "9": {
+      "title": "Phase 9 \u2014 100% Functional App (Smart-Mode)",
+      "runner": "docs/en/codex/runners/900.md",
+      "status_files": [
+        "docs/en/codex/architecture/app-status2gpt.md",
+        "docs/en/codex/architecture/policies.md",
+        "docs/en/codex/progress.json",
+        "docs/en/codex/architecture/data-model.md",
+        "docs/en/codex/architecture/taxonomy.md",
+        "docs/en/codex/architecture/sot.md",
+        "docs/en/codex/architecture/README_GUI.md"
+      ],
+      "artifacts": [
+        "artifacts/logs/phase9_pipeline.log",
+        "artifacts/outputs/normalized.csv",
+        "artifacts/outputs/classified.csv",
+        "artifacts/outputs/final.csv",
+        "artifacts/outputs/final.sqlite"
+      ]
     }
   }
 }

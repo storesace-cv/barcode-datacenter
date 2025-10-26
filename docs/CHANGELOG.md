@@ -1,7 +1,7 @@
 # Changelog
 
-## [Phase 8] — FreeSimpleGUI Dashboard (Docs-Only)
-- Added SoT entries and **Runner 800.md** specifying the dashboard UI to implement.
-- Policies updated to enforce **Option B** and **FreeSimpleGUI**.
-- Added Phase 8 progress tasks and CI workflow (docs-only verification).
-- Added command file `docs/en/codex/commands/run_phase8.md` for direct Codex execution.
+## [Phase 9] — 100% Functional App (Docs-Only)
+- Adicionado SoT e **Runner 900** (com sub-runners 901–909) a especificar a entrega completa (GUI + backend + testes + artefactos).
+- Atualizado progresso para novas tarefas da Phase 9.
+- Adicionado workflow `phase9.yml` e verificação estática `verify_phase9_status.sh`.
+- Adicionado `run_phase9.md` para comando direto ao Codex.

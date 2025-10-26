@@ -1,11 +1,16 @@
-# Smart-Mode Policies (Docs-Only Drop)
+# Smart-Mode Policies (Full App)
 
-## Option B Only — Codex First
-- Toda a execução é feita pelo Codex/CI a partir do **branch `main`**.
-- Este bundle **não** contém código; apenas especificações e _runners_.
-- O Codex deve **gerar/alterar código** para satisfazer os critérios de aceitação e **comitar de volta** ao repositório.
-- O CI deve **escrever progresso** em `docs/en/codex/progress.json` e opcionalmente `artifacts/logs/*.log`.
+## Option B — Codex First (sempre)
+- O Codex/CI trabalha a partir do **branch `main`**. A aplicação local só é testada **depois**.
+- O repositório deve ser atualizado pelo CI com **progresso** (`docs/en/codex/progress.json`) e **artefactos de log** em `artifacts/logs/`.
 
-## GUI Toolkit
-- **FreeSimpleGUI** substitui qualquer uso anterior de PySimpleGUI.
-- O Codex deve migrar imports e chamadas de API conforme necessário (nomes compatíveis).
+## Toolkit & Arquitetura
+- **FreeSimpleGUI** é o único toolkit GUI.
+- Backend em **Python 3.10+** com módulos por passo: `pipeline/ingest.py`, `normalize.py`, `classify.py`, `validate.py`, `dedupe.py`, `publish.py`.
+- Interface de linha de comando para cada passo: `python -m pipeline.<step> --in ... --out ...`.
+- Artefactos em `artifacts/inputs`, `artifacts/working`, `artifacts/outputs`, logs em `artifacts/logs`.
+
+## Qualidade
+- Testes unitários mínimos (`pytest`) por passo.
+- Logging estruturado (CSV e txt) e mensagens de erro claras na GUI.
+- Idempotência: correr o mesmo passo duas vezes não deve corromper saídas.

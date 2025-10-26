@@ -1,35 +1,18 @@
 # App Status — GPT Brief (SoT)
 
-## Phase 7 — Smart-Mode GUI wiring & pipeline stub
-(unchanged) — Escopo mínimo: janela simples com botão **Run pipeline (Smart-Mode)** e **Exit**.
+## Objetivo da Phase 9
+Tornar a aplicação **100% funcional**: todos os botões e etapas do pipeline operacionais, do *Ingest* ao *Publish*, com GUI FreeSimpleGUI completa, logging, verificação de erros, e artefactos finais exportados.
 
-## Phase 8 — FreeSimpleGUI Dashboard (Smart-Mode)
-**Objetivo:** Evoluir a GUI de uma janela simples para um **dashboard completo** semelhante ao *Screenshot 2025‑10‑25 at 18.50.37.png*, usando **FreeSimpleGUI**.
+## Pipeline (SoT)
+Ver `docs/en/codex/architecture/sot.md` para a sequência: Ingest → Normalize → Classify → Validate GTIN → Dedupe & Unify → Publish.
 
-### Requisitos de Layout (ver também runner 800.md)
-- **Janela**: título “Barcode Datacenter GUI”, tema escuro.
-- **Sidebar (Workflow)** com botões verticais (ordem):  
-  `Dashboard`, `Ingest`, `Normalize`, `Classify`, `Validate GTIN`, `Dedupe & Unify`, `Publish`;  
-  seção **Tools / Logs**; linha com `Branch: <nome-do-branch>`.
-- **Header (top-right)**: botões `Sync Main`, `Refresh`, `Open Dashboard` (abrir URL local/placeholder).
-- **Painel Status** (multi-linha readonly) exibindo JSON com chaves: `ok`, `ts`, `root`, `branch`, `version`.
-- **Painel Actions** com:  
-  - Dropdown “Run step” (valores: `Ingest`, `Normalize`, `Classify`, `Validate GTIN`, `Dedupe & Unify`, `Publish`) + botão `Run`  
-  - Botão **Run pipeline (Smart-Mode)**  
-  - Botões `Open artifacts dir`, `Open logs`
-- **Tabs** centrais: `Data Table`, `Preview / Artifacts`, `Logs` (conteúdo placeholder).
-- **Status Bar** inferior: `Ready` e contadores à direita `Valid: 0  Invalid: 0  Duplicates: 0  Unified: 0`.
+## Requisitos funcionais (GUI + Backend)
+1. **GUI (FreeSimpleGUI)** com todas as vistas, cabeçalho, sidebar, tabs e ações operacionais (ver Phase 8).
+2. **Ligação GUI ↔ Backend**: cada botão dispara o respetivo módulo real e escreve artefactos em `artifacts/...`.
+3. **Backend (módulos)**: `pipeline/ingest.py`, `normalize.py`, `classify.py`, `validate.py`, `dedupe.py`, `publish.py` com `main(args)` + CLI `argparse`.
+4. **Logs e artefactos**: logs por passo + `phase9_pipeline.log`; artefactos finais `final.csv` e `final.sqlite`.
+5. **Erros e robustez**: sem crashes; mensagens claras; status `ok=false` quando houver erro.
+6. **Testes**: `pytest -q` com seed mínima; CI corre testes e mini-pipeline.
 
-### Comportamento / Ligações
-- **Sem lógica de pipeline nova** nesta fase — reaproveitar o stub existente para o botão **Run pipeline (Smart-Mode)**.
-- Botões `Open artifacts dir` / `Open logs` devem abrir/mostrar diretório `artifacts/` (placeholder aceitável).
-- `Sync Main` deve executar o `git pull --ff-only` do branch atual e informar no painel de logs (placeholder aceitável no CI).
-- `Refresh` deve recarregar o painel `Status` com JSON atual (timestamp, path raiz, branch detectado, versão `v0.1.0`).
-
-### Compatibilidade
-- Migrar de PySimpleGUI para **FreeSimpleGUI** (imports/nomes).
-
-### Entregáveis
-- Código da GUI atualizado (implementado pelo Codex).  
-- Atualização dos scripts de verificação (grep estático e _smoke checks_).  
-- Progresso (`phase 8`) reportado no `progress.json`.
+## Entregáveis
+- Código completo da GUI e backend + artefactos finais; progresso Phase 9 atualizado.
