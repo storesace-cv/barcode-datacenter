@@ -52,4 +52,8 @@ else
   echo "[Smart-Mode] ✅ FreeSimpleGUI already present"
 fi
 
-exec "$PYTHON_BIN" -m app.gui.gui_app "${ARGS[@]}"
+if ((${#ARGS[@]})); then
+  exec "$PYTHON_BIN" -m app.gui.gui_app "${ARGS[@]}"
+else
+  exec "$PYTHON_BIN" -m app.gui.gui_app
+fi
