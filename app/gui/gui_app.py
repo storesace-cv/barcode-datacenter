@@ -6,6 +6,7 @@ import json
 import os
 import subprocess
 import sys
+import webbrowser
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
@@ -17,6 +18,31 @@ APP_VERSION = "v0.1.0"
 
 # Required strings for static verification of status keys.
 STATUS_KEY_LABELS: List[str] = ["'ok'", "'ts'", "'root'", "'branch'", "'version'"]
+
+NAV_BUTTON_KEYS = [
+    "-NAV-DASHBOARD-",
+    "-NAV-INGEST-",
+    "-NAV-NORMALIZE-",
+    "-NAV-CLASSIFY-",
+    "-NAV-VALIDATE-",
+    "-NAV-DEDUPE-",
+    "-NAV-PUBLISH-",
+    "-NAV-TOOLS-",
+]
+
+SIDEBAR_SELECTED_COLOR = ("white", "#2c5aa0")
+SIDEBAR_DEFAULT_COLOR = ("white", "#3a3f44")
+
+NAV_LABELS = {
+    "-NAV-DASHBOARD-": "Dashboard",
+    "-NAV-INGEST-": "Ingest",
+    "-NAV-NORMALIZE-": "Normalize",
+    "-NAV-CLASSIFY-": "Classify",
+    "-NAV-VALIDATE-": "Validate GTIN",
+    "-NAV-DEDUPE-": "Dedupe & Unify",
+    "-NAV-PUBLISH-": "Publish",
+    "-NAV-TOOLS-": "Tools / Logs",
+}
 
 
 def _apply_theme(theme_name: str) -> None:
@@ -91,14 +117,16 @@ def _update_status(window: sg.Window) -> None:
     window["-BRANCH-LABEL-"].update(f"Branch: {payload['branch']}")
 
 
-def _run_pipeline_stub(window: sg.Window, log_lines: List[str]) -> None:
+def _run_pipeline_stub(window: sg.Window, log_lines: List[str]) -> bool:
     try:
         subprocess.check_call([sys.executable, "scripts/codex/run_smart_pipeline.py"])
         _append_log(window, log_lines, "Run pipeline (Smart-Mode) completed.")
         sg.popup("Pipeline executed (stub Smart-Mode)")
+        return True
     except Exception as exc:  # pragma: no cover - interactive failure path
         _append_log(window, log_lines, f"Pipeline failed: {exc}")
         sg.popup_error(f"Pipeline failed: {exc}")
+        return False
 
 
 def _sync_main(window: sg.Window, log_lines: List[str]) -> None:
@@ -118,25 +146,121 @@ def _sync_main(window: sg.Window, log_lines: List[str]) -> None:
 
 def _open_directory(window: sg.Window, log_lines: List[str], path: str, label: str) -> None:
     _append_log(window, log_lines, f"{label} -> {path}")
-    sg.popup(f"{label}", path)
+    try:
+        if os.name == "nt":  # pragma: no cover - requires Windows
+            os.startfile(path)  # type: ignore[attr-defined]
+        elif sys.platform == "darwin":  # pragma: no cover - requires macOS
+            subprocess.Popen(["open", path])
+        else:
+            subprocess.Popen(["xdg-open", path])
+    except Exception as exc:  # pragma: no cover - interactive failure path
+        sg.popup_error(f"Unable to open {label}: {exc}\n{path}")
 
 
 def _open_dashboard(window: sg.Window, log_lines: List[str]) -> None:
     dashboard_url = "http://localhost:8000/dashboard"
     _append_log(window, log_lines, f"Open Dashboard -> {dashboard_url}")
-    sg.popup("Open Dashboard", dashboard_url)
+    webbrowser.open(dashboard_url)
+
+
+def _set_active_nav(window: sg.Window, active_key: str) -> None:
+    for key in NAV_BUTTON_KEYS:
+        if key == active_key:
+            window[key].update(button_color=SIDEBAR_SELECTED_COLOR)
+        else:
+            window[key].update(button_color=SIDEBAR_DEFAULT_COLOR)
+
+
+def _run_step(window: sg.Window, log_lines: List[str], step_label: str) -> bool:
+    step_slug_map = {
+        "Ingest": "ingest",
+        "Normalize": "normalize",
+        "Classify": "classify",
+        "Validate GTIN": "validate_gtin",
+        "Dedupe & Unify": "dedupe_unify",
+        "Publish": "publish",
+    }
+    slug = step_slug_map.get(step_label)
+    if not slug:
+        _append_log(window, log_lines, f"Unknown step requested: {step_label}")
+        sg.popup_error(f"Unknown step: {step_label}")
+        return False
+
+    script_path = Path(__file__).resolve().parents[2] / "scripts" / "steps" / "run_step.sh"
+    if not script_path.exists():
+        _append_log(window, log_lines, "Run step script missing.")
+        sg.popup_error(f"Unable to locate run_step.sh at {script_path}")
+        return False
+
+    try:
+        subprocess.check_call(["bash", str(script_path), slug])
+        _append_log(window, log_lines, f"Run step executed: {step_label}")
+        window["-STATUSBAR-READY-"].update(f"Ready – Completed {step_label}")
+        return True
+    except subprocess.CalledProcessError as exc:  # pragma: no cover - interactive failure path
+        _append_log(window, log_lines, f"Run step failed: {exc}")
+        sg.popup_error(f"Run step failed: {exc}")
+        return False
 
 
 def _build_layout(branch: str, status_text: str) -> List[List[sg.Element]]:
     sidebar_buttons = [
-        sg.Button("Dashboard", key="-NAV-DASHBOARD-", expand_x=True),
-        sg.Button("Ingest", key="-NAV-INGEST-", expand_x=True),
-        sg.Button("Normalize", key="-NAV-NORMALIZE-", expand_x=True),
-        sg.Button("Classify", key="-NAV-CLASSIFY-", expand_x=True),
-        sg.Button("Validate GTIN", key="-NAV-VALIDATE-", expand_x=True),
-        sg.Button("Dedupe & Unify", key="-NAV-DEDUPE-", expand_x=True),
-        sg.Button("Publish", key="-NAV-PUBLISH-", expand_x=True),
-        sg.Button("Tools / Logs", key="-NAV-TOOLS-", expand_x=True),
+        sg.Button(
+            "Dashboard",
+            key="-NAV-DASHBOARD-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
+        sg.Button(
+            "Ingest",
+            key="-NAV-INGEST-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
+        sg.Button(
+            "Normalize",
+            key="-NAV-NORMALIZE-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
+        sg.Button(
+            "Classify",
+            key="-NAV-CLASSIFY-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
+        sg.Button(
+            "Validate GTIN",
+            key="-NAV-VALIDATE-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
+        sg.Button(
+            "Dedupe & Unify",
+            key="-NAV-DEDUPE-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
+        sg.Button(
+            "Publish",
+            key="-NAV-PUBLISH-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
+        sg.Button(
+            "Tools / Logs",
+            key="-NAV-TOOLS-",
+            expand_x=True,
+            button_color=SIDEBAR_DEFAULT_COLOR,
+            border_width=1,
+        ),
         sg.Text(f"Branch: {branch}", key="-BRANCH-LABEL-", pad=((0, 0), (20, 0))),
     ]
 
@@ -225,7 +349,7 @@ def _build_layout(branch: str, status_text: str) -> List[List[sg.Element]]:
     sidebar = sg.Column([[element] for element in sidebar_buttons], pad=(0, 0), expand_y=True)
 
     status_bar = [
-        sg.Text("Ready", key="-STATUSBAR-READY-"),
+        sg.Text("Ready – Viewing Dashboard", key="-STATUSBAR-READY-"),
         sg.Push(),
         sg.Text("Valid: 0", key="-STATUS-VALID-"),
         sg.Text("  Invalid: 0", key="-STATUS-INVALID-"),
@@ -251,9 +375,13 @@ def main() -> None:
     window = sg.Window(
         "Barcode Datacenter GUI",
         layout,
+        size=(1280, 720),
         resizable=True,
         finalize=True,
     )
+
+    active_nav = "-NAV-DASHBOARD-"
+    _set_active_nav(window, active_nav)
 
     log_lines: List[str] = []
     _append_log(window, log_lines, "Dashboard started in smart-mode.")
@@ -261,6 +389,8 @@ def main() -> None:
     repo_root = _detect_repo_root()
     artifacts_dir = os.path.join(repo_root, "artifacts")
     logs_dir = os.path.join(repo_root, "artifacts", "logs")
+    os.makedirs(artifacts_dir, exist_ok=True)
+    os.makedirs(logs_dir, exist_ok=True)
 
     while True:
         event, values = window.read()
@@ -268,24 +398,37 @@ def main() -> None:
             break
 
         if event == "-RUN-PIPELINE-":
-            _run_pipeline_stub(window, log_lines)
+            if _run_pipeline_stub(window, log_lines):
+                window["-STATUSBAR-READY-"].update("Ready – Smart-Mode pipeline finished")
+            else:
+                window["-STATUSBAR-READY-"].update("Ready – Pipeline error")
         elif event == "-RUN-STEP-BTN-":
             step = values.get("-RUN-STEP-", "Unknown")
-            _append_log(window, log_lines, f"Run step -> {step}")
+            if not _run_step(window, log_lines, step):
+                window["-STATUSBAR-READY-"].update(f"Ready – Step error ({step})")
         elif event == "-OPEN-ARTIFACTS-":
             _open_directory(window, log_lines, artifacts_dir, "Open artifacts dir")
+            window["-STATUSBAR-READY-"].update("Ready – Artifacts opened")
         elif event == "-OPEN-LOGS-":
             _open_directory(window, log_lines, logs_dir, "Open logs")
+            window["-STATUSBAR-READY-"].update("Ready – Logs opened")
         elif event == "-REFRESH-":
             _append_log(window, log_lines, "Refresh status requested.")
             _update_status(window)
+            window["-STATUSBAR-READY-"].update("Ready – Status refreshed")
         elif event == "-SYNC-":
             _sync_main(window, log_lines)
             _update_status(window)
+            window["-STATUSBAR-READY-"].update("Ready – Repository synced")
         elif event == "-OPEN-DASHBOARD-":
             _open_dashboard(window, log_lines)
+            window["-STATUSBAR-READY-"].update("Ready – Dashboard opened")
         elif event and str(event).startswith("-NAV-"):
             _append_log(window, log_lines, f"Navigation -> {event}")
+            active_nav = str(event)
+            _set_active_nav(window, active_nav)
+            label = NAV_LABELS.get(active_nav, "Workflow")
+            window["-STATUSBAR-READY-"].update(f"Ready – Viewing {label}")
 
     window.close()
 
