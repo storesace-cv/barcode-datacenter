@@ -1,4 +1,5 @@
 - 2025-10-25T16:45:56Z — Smart-Mode v3 initialized
 - 2025-10-25T16:55:52Z — launcher_env_setup ok (smart-mode)
 - 2025-10-25T21:16:15Z — deps_pysimplegui4foss_4.61.0.206 ok (smart-mode)
+- 2025-10-27T10:00:00Z — smart_mode_gui_guided ok (guided workflow assistant + progress)
 - 2025-10-26T14:20:00Z — smart_mode_supermarkets ok (connectors + orchestrator + gui)

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2025-10-27
+- Redesigned smart-mode dashboard layout with optional guided assistant and progress tracker.
+- Added step detail panel exposing metrics, artifacts, and logs from backend payloads.
+- Completed guided interactions with sequential execution controls and refreshed documentation.
+
 ## 2025-10-25
 - Phase 1 bootstrap created: docs, runners, scripts, CI, tests, seed taxonomy.
 - Stubbed Phase 6 dashboard scaffolding: backend loaders, GUI layout, deterministic seed data.
