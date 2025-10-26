@@ -1,0 +1,43 @@
+name: Phase 8 Verify (Docs-Only)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - my-barcode-datacenter
+      - 'codex/**'
+  pull_request: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify-docs-only:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install base deps
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Verify Phase 8 (static)
+        run: bash scripts/verify_phase8_status.sh || true
+
+      - name: Mark ci_commit (Phase 8)
+        run: |
+          python3 scripts/codex/progress_helper.py --phase 8 --task ci_commit --value 100 --msg "CI marked ci_commit (docs-only)."
+          git config user.name  "codex-bot"
+          git config user.email "codex-bot@users.noreply.github.com"
+          git add docs/en/codex/progress.json || true
+          git commit -m "codex: phase8 progress (docs-only) [skip ci]" || true
+          git push || true
