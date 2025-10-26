@@ -7,7 +7,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict
 import json
+import logging
 import os
+
+from app.logging_utils import initialize_logging_if_requested
+
+
+initialize_logging_if_requested()
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS_ROOT = REPO_ROOT / "artifacts"
@@ -56,6 +62,11 @@ def log_event(step: str, message: str, *, status: str = "info", extra: Dict[str,
         fh.write(record.to_json() + os.linesep)
     # Mirror to stdout for CLI friendliness.
     print(f"[{status.upper()}] {step}: {message}")
+    logging.getLogger("barcode.pipeline").log(
+        getattr(logging, status.upper(), logging.INFO),
+        "%s",
+        record.to_json(),
+    )
 
 
 __all__ = [
