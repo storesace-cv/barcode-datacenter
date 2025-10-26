@@ -36,6 +36,17 @@ Após a execução serão criados ficheiros em `artifacts/`:
 - `working/unified.csv` — dataset deduplicado e enriquecido.
 - `outputs/final.csv`, `final.jsonl`, `final.sqlite` — artefactos finais prontos a consumir.
 - `logs/` — registos estruturados para cada passo (`phase9_pipeline.log`, `gui_actions.log`).
+- `logs/app_full_logs.txt` — diário exaustivo (opcional) quando o modo de depuração está ativo.
+
+### Logging exaustivo para depuração
+
+Para capturar absolutamente tudo o que a aplicação faz (stdout, stderr, exceções não tratadas e entradas estruturadas), ative o modo de depuração ao lançar a GUI:
+
+```bash
+scripts/launchers/launch_gui.sh --debug-on
+```
+
+Enquanto o modo estiver ativo, a variável de ambiente `APP_FULL_LOGGING=1` é propagada para os processos Python e o ficheiro `logs/app_full_logs.txt` recebe toda a atividade da aplicação, incluindo métricas do pipeline e mensagens de erro. Utilize `--debug-off` (ou omita a flag) para iniciar a aplicação no modo normal.
 
 ## Coletores e estratégia de dados
 
