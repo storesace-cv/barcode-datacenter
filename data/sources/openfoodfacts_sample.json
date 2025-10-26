@@ -1,0 +1,22 @@
+[
+  {
+    "code": "5601234567890",
+    "product_name": "Bolacha Maria 200g",
+    "brands": "Triunfo",
+    "quantity": "200 g",
+    "categories": "Snacks, Bolachas",
+    "countries": "Portugal",
+    "url": "https://pt.openfoodfacts.org/produto/5601234567890",
+    "last_modified_t": 1695120000
+  },
+  {
+    "code": "5609876543210",
+    "product_name": "Água Mineral 1.5L",
+    "brands": "Pedras",
+    "quantity": "1.5 L",
+    "categories": "Bebidas, Águas",
+    "countries": "Portugal, Cabo Verde",
+    "url": "https://pt.openfoodfacts.org/produto/5609876543210",
+    "last_modified_t": 1695033600
+  }
+]

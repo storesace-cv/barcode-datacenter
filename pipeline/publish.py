@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import List
 
 from . import OUTPUTS_DIR, ensure_directories, log_event
+from .models import StepResult
 
 FINAL_CSV = "final.csv"
 FINAL_JSONL = "final.jsonl"
@@ -37,11 +38,21 @@ def export_jsonl(rows: List[dict], output_path: Path) -> None:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+TYPE_OVERRIDES = {
+    "confidence": "REAL",
+    "priority": "INTEGER",
+    "price_amount": "REAL",
+}
+
+
 def export_sqlite(rows: List[dict], columns: List[str], output_path: Path) -> None:
     conn = sqlite3.connect(output_path)
     try:
-        col_defs = ", ".join(f'"{col}" TEXT' for col in columns)
-        conn.execute(f"CREATE TABLE IF NOT EXISTS products ({col_defs});")
+        col_defs = []
+        for col in columns:
+            col_type = TYPE_OVERRIDES.get(col, "TEXT")
+            col_defs.append(f'"{col}" {col_type}')
+        conn.execute(f"CREATE TABLE IF NOT EXISTS products ({', '.join(col_defs)});")
         conn.execute("DELETE FROM products;")
         if rows:
             placeholders = ", ".join(["?"] * len(columns))
@@ -75,30 +86,39 @@ def main(argv: List[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    ensure_directories()
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    run_publish(args.input_path, args.output_dir)
+    return 0
 
-    rows = load_rows(args.input_path)
+
+def run_publish(
+    input_path: Path = Path("artifacts/working/unified.csv"),
+    output_dir: Path = OUTPUTS_DIR,
+) -> StepResult:
+    ensure_directories()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    rows = load_rows(input_path)
     columns = list(rows[0].keys()) if rows else []
 
-    csv_path = args.output_dir / FINAL_CSV
-    jsonl_path = args.output_dir / FINAL_JSONL
-    sqlite_path = args.output_dir / FINAL_SQLITE
+    csv_path = output_dir / FINAL_CSV
+    jsonl_path = output_dir / FINAL_JSONL
+    sqlite_path = output_dir / FINAL_SQLITE
 
     export_csv(rows, columns, csv_path)
     export_jsonl(rows, jsonl_path)
     export_sqlite(rows, columns, sqlite_path)
 
-    log_event(
-        "publish",
-        f"Published {len(rows)} rows to final artifacts.",
-        extra={
+    result = StepResult(
+        name="publish",
+        status="ok",
+        metrics={"rows": len(rows)},
+        artifacts={
             "csv": str(csv_path),
             "jsonl": str(jsonl_path),
             "sqlite": str(sqlite_path),
         },
     )
-    return 0
+    log_event("publish", f"Published {len(rows)} rows to final artifacts.", extra=result.metrics)
+    return result
 
 
 if __name__ == "__main__":  # pragma: no cover - CLI entry point

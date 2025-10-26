@@ -10,6 +10,7 @@ from typing import List
 from scripts.python.validate_gtin import valid_gtin
 
 from . import WORKING_DIR, ensure_directories, log_event
+from .models import StepResult
 
 
 def validate_file(input_path: Path, output_path: Path) -> int:
@@ -34,6 +35,21 @@ def validate_file(input_path: Path, output_path: Path) -> int:
     return count
 
 
+def run_validate(
+    input_path: Path = WORKING_DIR / "classified.csv",
+    output_path: Path = WORKING_DIR / "validated.csv",
+) -> StepResult:
+    count = validate_file(input_path, output_path)
+    result = StepResult(
+        name="validate",
+        status="ok" if count else "empty",
+        metrics={"validated": count},
+        artifacts={"csv": str(output_path)},
+    )
+    log_event("validate", f"Validated {count} rows.", extra=result.metrics)
+    return result
+
+
 def main(argv: List[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Validate GTIN codes and add gtin_valid column.")
     parser.add_argument(
@@ -52,8 +68,7 @@ def main(argv: List[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    count = validate_file(args.input_path, args.output_path)
-    log_event("validate", f"Validated {count} rows.", extra={"output": str(args.output_path)})
+    run_validate(args.input_path, args.output_path)
     return 0
 
 

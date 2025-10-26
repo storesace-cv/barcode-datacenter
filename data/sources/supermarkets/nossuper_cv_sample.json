@@ -1,0 +1,38 @@
+[
+  {
+    "code": "5601799999008",
+    "name": "Atum em Azeite 120g",
+    "brand": "Gudi",
+    "quantity": "120 g",
+    "categories": ["Mercearia", "Conservas"],
+    "price": 195,
+    "currency": "CVE",
+    "url": "https://www.nossuper.cv/produto/atum-azeite-gudi-120g-5601799999008/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-05T14:10:00Z"
+  },
+  {
+    "code": "5601098524683",
+    "name": "Feijão Preto 1kg",
+    "brand": "NosSuper",
+    "quantity": "1 kg",
+    "categories": ["Mercearia", "Leguminosas"],
+    "price": 320,
+    "currency": "CVE",
+    "url": "https://www.nossuper.cv/produto/feijao-preto-1kg-5601098524683/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-04T15:45:00Z"
+  },
+  {
+    "code": "5601666007788",
+    "name": "Água Mineral 1.5L",
+    "brand": "Fonte Lima",
+    "quantity": "1.5 L",
+    "categories": ["Bebidas", "Água"],
+    "price": 90,
+    "currency": "CVE",
+    "url": "https://www.nossuper.cv/produto/agua-fonte-lima-15l-5601666007788/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-03T09:20:00Z"
+  }
+]

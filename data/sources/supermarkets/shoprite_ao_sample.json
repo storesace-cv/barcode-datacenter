@@ -1,0 +1,38 @@
+[
+  {
+    "code": "6161100430027",
+    "name": "Arroz Branco 1kg",
+    "brand": "Shoprite RiteBrand",
+    "quantity": "1 kg",
+    "categories": ["Mercearia", "Cereais", "Arroz"],
+    "price": 2300,
+    "currency": "AOA",
+    "url": "https://www.shoprite.co.ao/produto/arroz-branco-ritebrand-1kg-6161100430027/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-12T09:00:00Z"
+  },
+  {
+    "code": "6009186798456",
+    "name": "Óleo de Cozinha 750ml",
+    "brand": "Sunfoil",
+    "quantity": "0.75 L",
+    "categories": ["Mercearia", "Óleos e Azeites"],
+    "price": 1850,
+    "currency": "AOA",
+    "url": "https://www.shoprite.co.ao/produto/oleo-sunfoil-750ml-6009186798456/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-10T16:40:00Z"
+  },
+  {
+    "code": "6001240200035",
+    "name": "Leite UHT Integral 1L",
+    "brand": "Parmalat",
+    "quantity": "1 L",
+    "categories": ["Bebidas", "Laticínios", "Leite"],
+    "price": 1450,
+    "currency": "AOA",
+    "url": "https://www.shoprite.co.ao/produto/leite-parmalat-1l-6001240200035/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-14T11:25:00Z"
+  }
+]

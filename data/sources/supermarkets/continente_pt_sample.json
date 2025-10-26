@@ -1,0 +1,38 @@
+[
+  {
+    "code": "5601234000012",
+    "name": "Leite UHT Meio Gordo 1L",
+    "brand": "Continente",
+    "quantity": "1 L",
+    "categories": ["Bebidas", "Laticínios", "Leite"],
+    "price": 0.79,
+    "currency": "EUR",
+    "url": "https://www.continente.pt/produto/leite-meio-gordo-1l-continente-5601234000012/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-24T10:00:00Z"
+  },
+  {
+    "code": "5601234567008",
+    "name": "Arroz Agulha Selecionado 1kg",
+    "brand": "Continente",
+    "quantity": "1 kg",
+    "categories": ["Mercearia", "Cereais", "Arroz"],
+    "price": 1.15,
+    "currency": "EUR",
+    "url": "https://www.continente.pt/produto/arroz-agulha-1kg-continente-5601234567008/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-23T08:30:00Z"
+  },
+  {
+    "code": "5601359123453",
+    "name": "Azeite Virgem Extra 750ml",
+    "brand": "Continente Seleção",
+    "quantity": "0.75 L",
+    "categories": ["Mercearia", "Óleos e Azeites"],
+    "price": 5.49,
+    "currency": "EUR",
+    "url": "https://www.continente.pt/produto/azeite-virgem-extra-selecao-750ml-5601359123453/",
+    "availability": "in_stock",
+    "last_seen": "2024-09-22T19:15:00Z"
+  }
+]
