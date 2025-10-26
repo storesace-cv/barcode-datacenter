@@ -14,19 +14,37 @@
         <span>Pipeline inteligente para PT · Angola · Cabo Verde</span>
       </div>
       <div class="controls">
-        <label class="toggle">
-          <input type="checkbox" id="toggle-offline"/>
-          <span>Forçar ingestão offline</span>
-        </label>
-        <button id="btn-refresh" class="btn btn-secondary">🔄 Atualizar estado</button>
-        <button id="btn-run-step" class="btn btn-secondary">▶️ Executar passo</button>
-        <button id="btn-run-pipeline" class="btn btn-primary">🤖 Executar pipeline completo</button>
+        <div class="control-group">
+          <label class="toggle">
+            <input type="checkbox" id="toggle-offline"/>
+            <span>Forçar ingestão offline</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-guided"/>
+            <span>Ativar workflow guiado</span>
+          </label>
+        </div>
+        <div class="control-group control-actions">
+          <button id="btn-refresh" class="btn btn-secondary">🔄 Atualizar estado</button>
+          <button id="btn-run-step" class="btn btn-secondary">▶️ Executar passo</button>
+          <button id="btn-run-pipeline" class="btn btn-primary">🤖 Executar pipeline completo</button>
+        </div>
       </div>
     </header>
 
     <div class="content">
       <aside class="sidebar">
         <h2>Workflow guiado</h2>
+        <div class="progress-card">
+          <div class="progress-meta">
+            <span class="progress-label">Progresso geral</span>
+            <span id="progress-value" class="progress-value">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-bar-fill"></div>
+          </div>
+          <span id="progress-legend" class="progress-legend">0 de 6 passos completos</span>
+        </div>
         <ol id="stepper" class="stepper"></ol>
         <div class="step-actions">
           <button id="btn-prev" class="btn btn-ghost">◀️ Passo anterior</button>
@@ -35,6 +53,55 @@
       </aside>
 
       <main class="main-pane">
+        <section id="guided-panel" class="panel guided-panel hidden">
+          <header>
+            <span>Assistente passo-a-passo</span>
+            <span id="guided-status" class="badge">Desativado</span>
+          </header>
+          <div class="guided-body">
+            <p id="guided-intro">
+              Ative o workflow guiado para seguir a ordem recomendada com contexto e métricas de cada ação.
+            </p>
+            <div class="guided-next">
+              <span class="label">Próxima ação</span>
+              <div class="guided-next-details">
+                <strong id="guided-next-title">—</strong>
+                <span id="guided-next-desc" class="guided-next-desc">Selecione um passo para começar.</span>
+              </div>
+            </div>
+            <ol id="guided-actions" class="guided-actions"></ol>
+          </div>
+          <div class="guided-controls">
+            <button id="btn-guided-run" class="btn btn-primary" disabled>▶️ Executar próxima ação</button>
+            <button id="btn-guided-skip" class="btn btn-secondary" disabled>⏭️ Avançar sem executar</button>
+          </div>
+        </section>
+
+        <section class="panel detail-panel">
+          <header><span>Detalhes do passo selecionado</span></header>
+          <div class="detail-header">
+            <div>
+              <h3 id="detail-title">—</h3>
+              <p id="detail-desc" class="detail-desc">Escolha um passo para consultar métricas e ações.</p>
+            </div>
+            <span id="detail-status" class="badge">Pendente</span>
+          </div>
+          <div class="detail-grid">
+            <div>
+              <h4>Métricas</h4>
+              <dl id="detail-metrics" class="key-value-list"></dl>
+            </div>
+            <div>
+              <h4>Artefactos</h4>
+              <ul id="detail-artifacts" class="detail-artifacts"></ul>
+            </div>
+          </div>
+          <div>
+            <h4>Notas e logs</h4>
+            <ul id="detail-logs" class="detail-logs"></ul>
+          </div>
+        </section>
+
         <section class="panel">
           <header><span>Estado dos passos</span></header>
           <pre id="status-output">A carregar estado...</pre>
