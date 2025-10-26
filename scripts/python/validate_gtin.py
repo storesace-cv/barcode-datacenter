@@ -15,18 +15,33 @@ def valid_gtin(code: str) -> bool:
     calc = (10 - (s % 10)) % 10
     return calc == check
 
-ap = argparse.ArgumentParser()
-ap.add_argument("--in", dest="inp", required=True)
-ap.add_argument("--out", dest="out", required=True)
-args = ap.parse_args()
+def process_file(inp: str, out: str) -> int:
+    with open(inp, newline="", encoding="utf-8") as fin, open(out, "w", newline="", encoding="utf-8") as fout:
+        r = csv.DictReader(fin)
+        cols = list(r.fieldnames or [])
+        if "gtin_valid" not in cols:
+            cols.append("gtin_valid")
+        w = csv.DictWriter(fout, fieldnames=cols)
+        w.writeheader()
+        count = 0
+        for row in r:
+            gtin = row.get("gtin", "")
+            row["gtin_valid"] = "1" if gtin and valid_gtin(gtin) else "0"
+            w.writerow(row)
+            count += 1
+    return count
 
-with open(args.inp, newline="", encoding="utf-8") as fin, open(args.out, "w", newline="", encoding="utf-8") as fout:
-    r = csv.DictReader(fin)
-    cols = r.fieldnames + ["gtin_valid"]
-    w = csv.DictWriter(fout, fieldnames=cols)
-    w.writeheader()
-    for row in r:
-        gtin = row.get("gtin","")
-        row["gtin_valid"] = "1" if gtin and valid_gtin(gtin) else "0"
-        w.writerow(row)
-print(f"Validated -> {args.out}")
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--in", dest="inp", required=True)
+    ap.add_argument("--out", dest="out", required=True)
+    args = ap.parse_args(argv)
+
+    count = process_file(args.inp, args.out)
+    print(f"Validated -> {args.out} ({count} rows)")
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())
