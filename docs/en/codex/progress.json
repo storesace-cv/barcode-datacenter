@@ -39,11 +39,11 @@
           "msg": "Unit tests pass in CI."
         },
         "ci_commit": {
-          "value": 0,
-          "msg": "CI wrote progress/logs back to repo."
+          "value": 100,
+          "msg": "CI marked ci_commit (docs-only)."
         }
       },
-      "updated_at": null
+      "updated_at": "2025-10-26T00:38:48.170971Z"
     }
   }
 }
