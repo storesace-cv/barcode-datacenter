@@ -16,31 +16,31 @@
     "8": {
       "tasks": {
         "gui_dashboard_layout": {
-          "value": 0,
-          "msg": "Init Phase 8 dashboard layout."
+          "value": 100,
+          "msg": "Phase 8 dashboard layout present."
         },
         "actions_wiring": {
-          "value": 0,
-          "msg": "Wire actions to placeholders/stub."
+          "value": 100,
+          "msg": "Phase 8 actions wired to placeholders."
         },
         "statusbar_counters": {
-          "value": 0,
-          "msg": "Status bar & counters shown."
+          "value": 100,
+          "msg": "Status counters visible."
         },
         "tabs_impl": {
-          "value": 0,
+          "value": 100,
           "msg": "Tabs scaffolded."
         },
         "tool_buttons": {
-          "value": 0,
-          "msg": "Sync/Refresh/Open actions."
+          "value": 100,
+          "msg": "Sync/Refresh/Open wired."
         },
         "ci_commit": {
           "value": 100,
           "msg": "CI marked ci_commit (docs-only)."
         }
       },
-      "updated_at": "2025-10-26T00:01:30.842710Z"
+      "updated_at": "2025-10-26T00:17:44.567676Z"
     }
   }
 }
